@@ -1,50 +1,33 @@
-# React + TypeScript + Vite
+# Dephium - Decentralized Betting on Alephium
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A decentralized betting platform built on the Alephium blockchain that combines AI-powered games with crypto staking. Users can stake ALPH tokens on interactive games and earn rewards based on their performance.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Connect Wallet**: Seamlessly connect your Alephium wallet
+- **Secure Staking**: Stake ALPH tokens through smart contracts
+- **AI Integration**: LangChain powered game mechanics
+- **Transparent Betting**: All outcomes recorded on blockchain
 
-## Expanding the ESLint configuration
+## Games
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### 🐱 SpongeBob's Cat Meme Review
 
-- Configure the top-level `parserOptions` property like this:
+- Upload cat memes and rate them
+- SpongeBob characters (AI) rate your meme
+- Win if your rating matches AI consensus
+- Stake ALPH tokens on your rating accuracy
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+### 🎯 Survival Situations
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+- Face randomized survival scenarios
+- Submit your survival strategy
+- AI evaluates your survival probability
+- Win if the AI determines you would survive
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+## Tech Stack
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+- React 18 + TypeScript + Vite
+- TailwindCSS + ShadcnUI
+- LangChain + Google Gemini Pro
+- Alephium Web3 SDK
