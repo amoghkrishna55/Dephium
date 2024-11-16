@@ -4,6 +4,8 @@ import "./index.css";
 import App from "./App.tsx";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Select from "./pages/select.tsx";
+import MemeReview from "./games/memeReview.tsx";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -12,6 +14,10 @@ const router = createBrowserRouter([
   {
     path: "/select",
     element: <Select />,
+  },
+  {
+    path: "/game/meme-review",
+    element: <MemeReview />,
   },
 ]);
 
