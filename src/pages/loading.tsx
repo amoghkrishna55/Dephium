@@ -20,7 +20,7 @@ const Loading = ({ onVideoLoad }: LoadingProps) => {
           setLocalLoaded(true);
           onVideoLoad();
         }}
-        className={`w-32 h-32 md:w-48 md:h-48 lg:w-72 lg:h-72 transition-opacity duration-300 
+        className={`w-48 h-48 md:w-48 md:h-48 lg:w-72 lg:h-72 transition-opacity duration-300 
             ${localLoaded ? "opacity-100" : "opacity-0"}`}
       >
         <source src={LoadingMp4} type="video/mp4" />
