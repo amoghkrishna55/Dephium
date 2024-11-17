@@ -9,12 +9,95 @@ import Spongebob from "@/assets/spongebob.png";
 import Patrick from "@/assets/patrick.png";
 import { getMemeReview } from "@/llm/rating";
 import { motion, AnimatePresence } from "framer-motion";
+import spongebobOK from "@/assets/characters/spongebob_ok.png";
+import spongebobThinking from "@/assets/characters/spongebob_thinking.png";
+import crabOk from "@/assets/characters/crab_ok.png";
+import crabThinking from "@/assets/characters/crab_thinking.png";
+import patrickOk from "@/assets/characters/patrick_ok.png";
+import patrickThinking from "@/assets/characters/patrick_thinking.png";
+import sandyOk from "@/assets/characters/sandy_ok.png";
+import sandyThinking from "@/assets/characters/sandy_thinking.png";
+import squidwardOk from "@/assets/characters/squidward_ok.png";
+import squidwardThinking from "@/assets/characters/squidward_thinking.png";
+
+interface Character {
+  name: string;
+  thinkingImg: string;
+  okImg: string;
+  rating?: number;
+  review?: string;
+}
 
 const UploadMeme = () => {
   const [score, setScore] = useState<string>("");
   const [previewUrl, setPreviewUrl] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
   const [showUnderwater, setShowUnderwater] = useState(false);
+  const [allReview, setAllReview] = useState(false);
+  const [characters, setCharacters] = useState<Character[]>([
+    {
+      name: "SpongeBob",
+      thinkingImg: spongebobThinking,
+      okImg: spongebobOK,
+    },
+    {
+      name: "Patrick",
+      thinkingImg: patrickThinking,
+      okImg: patrickOk,
+    },
+    {
+      name: "Squidward",
+      thinkingImg: squidwardThinking,
+      okImg: squidwardOk,
+    },
+    {
+      name: "Mr. Krabs",
+      thinkingImg: crabThinking,
+      okImg: crabOk,
+    },
+    {
+      name: "Sandy",
+      thinkingImg: sandyThinking,
+      okImg: sandyOk,
+    },
+  ]);
+
+  const fetchReview = async (character: Character) => {
+    try {
+      const response = await getMemeReview(previewUrl, character.name as any);
+      setCharacters((prev) =>
+        prev.map((char) =>
+          char.name === character.name
+            ? { ...char, rating: response.rating, review: response.review }
+            : char
+        )
+      );
+      return response;
+    } catch (error) {
+      console.error(`Error getting ${character.name}'s review:`, error);
+      return null;
+    }
+  };
+
+  const averageRating = characters.reduce(
+    (acc, char) => acc + (char.rating || 0),
+    0
+  );
+
+  const getReviews = async () => {
+    setIsLoading(true);
+    setShowUnderwater(true);
+    try {
+      const reviewPromises = characters.map((character) =>
+        fetchReview(character)
+      );
+      await Promise.all(reviewPromises).then(() => setAllReview(true));
+    } catch (error) {
+      console.error("Error fetching reviews:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
   const navigate = useNavigate();
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -24,14 +107,6 @@ const UploadMeme = () => {
       setPreviewUrl(URL.createObjectURL(acceptedFiles[0]));
     },
   });
-
-  const getreview = async () => {
-    setIsLoading(true);
-    setShowUnderwater(true);
-    const data = await getMemeReview(previewUrl, "SpongeBob");
-    console.log(data);
-    setIsLoading(false);
-  };
 
   const handleScoreChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -119,10 +194,10 @@ const UploadMeme = () => {
                 <Button
                   disabled={!previewUrl || !score || isLoading}
                   className="w-full mt-8 bg-primary text-primary-foreground hover:opacity-90"
-                  onClick={getreview}
+                  onClick={getReviews}
                 >
                   {isLoading
-                    ? "Getting SpongeBob's Opinion..."
+                    ? "Getting Your Meme Reviewed..."
                     : "Submit for Review!"}
                 </Button>
 
@@ -197,8 +272,125 @@ const UploadMeme = () => {
           ))}
         </div>
 
-        {/* Underwater content */}
-        <div>hello</div>
+        <div className="min-h-screen bg-gradient-to-b from-sky-400 to-blue-600 p-8">
+          <div className="flex gap-8 max-w-7xl mx-auto">
+            <div className="w-2/3 space-y-6 max-h-[90vh] overflow-y-auto pr-4">
+              {characters.map((char, index) => (
+                <motion.div
+                  key={char.name}
+                  initial={{ x: -100, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ delay: index * 0.2 }}
+                  className="flex items-start gap-4 bg-white/10 backdrop-blur-sm rounded-lg p-4"
+                >
+                  <div className="w-24 h-24 relative">
+                    <motion.img
+                      src={char.thinkingImg}
+                      alt={char.name}
+                      className="w-full h-full object-contain"
+                      animate={{
+                        y: [0, -5, 0],
+                      }}
+                      transition={{
+                        duration: 2,
+                        repeat: Infinity,
+                        repeatType: "reverse",
+                      }}
+                    />
+                  </div>
+
+                  <div className="flex-1">
+                    <h3 className="text-xl font-bold text-white mb-2">
+                      {char.name}
+                    </h3>
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      transition={{ delay: index * 0.3 }}
+                      className="space-y-2"
+                    >
+                      <div className="flex items-center gap-2">
+                        <span className="text-white/80">Rating:</span>
+                        <div className="flex gap-1">
+                          {[...Array(10)].map((_, i) => (
+                            <div
+                              key={i}
+                              className={`w-2 h-6 rounded-full ${
+                                i < (char.rating || 0)
+                                  ? "bg-yellow-400"
+                                  : "bg-white/20"
+                              }`}
+                            />
+                          ))}
+                        </div>
+                        <span className="text-white/100 text-2xl">
+                          {char.rating}
+                        </span>
+                      </div>
+                      <p className="text-white/80 italic">
+                        {char.review || "Thinking..."}
+                      </p>
+                    </motion.div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            <motion.div
+              className="w-2/3 sticky top-8"
+              initial={{ x: 100, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+            >
+              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
+                <img
+                  src={previewUrl}
+                  alt="Meme Preview"
+                  className="w-full rounded-lg"
+                />
+                <div className="mt-4 text-center">
+                  <p className="text-white/80">Your Rating: {score}/10</p>
+                </div>
+              </div>
+              {allReview && (
+                <>
+                  <div className="mt-8 bg-white/10 backdrop-blur-sm rounded-lg p-4">
+                    <h2 className="text-xl font-bold text-white mb-4">
+                      Average Rating:{" "}
+                      {Math.round(averageRating / characters.length)}
+                    </h2>
+                    <motion.div
+                      className="mt-8 text-center"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5 }}
+                    >
+                      <motion.p
+                        className="text-4xl font-bold text-black/80"
+                        animate={{ scale: [1, 1.05, 1] }}
+                        transition={{
+                          duration: 2,
+                          repeat: Infinity,
+                          repeatType: "reverse",
+                        }}
+                      >
+                        {Math.round(averageRating / characters.length) ===
+                        parseInt(score)
+                          ? "You Win!"
+                          : "You Lost!"}
+                      </motion.p>
+                    </motion.div>
+                  </div>
+                  <Button
+                    onClick={() => navigate("/select")}
+                    className="w-full mt-8 bg-primary text-primary-foreground hover:opacity-90"
+                  >
+                    Continue
+                  </Button>
+                </>
+              )}
+            </motion.div>
+          </div>
+        </div>
       </motion.div>
     </div>
   );

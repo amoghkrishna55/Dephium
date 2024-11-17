@@ -94,6 +94,8 @@ export async function getMemeReview(
   - Must have clear humorous intent (not just a cute cat photo)
   - Must prominently feature or reference cats (not just background elements)
   - Must have proper meme format (image + text, or recognizable meme structure)
+
+  IMPORTANT: Your review MUST be 20 characters or less!
   
   If ANY of these criteria are missing, respond with:
   rating: 1
@@ -149,6 +151,7 @@ export async function getMemeReview(
         ],
       }),
     ]);
+    console.log(response.rating);
 
     return {
       character: characterName,
