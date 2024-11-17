@@ -1,0 +1,28 @@
+{
+  "version": "v3.8.5",
+  "name": "SubmitMeme",
+  "bytecodeTemplate": "0101030000000eb40c0d{0}0100d12aa2b4{1}0e0c{0}0102",
+  "fieldsSig": {
+    "names": [
+      "contest",
+      "memeHash"
+    ],
+    "types": [
+      "MemeContest",
+      "ByteVec"
+    ],
+    "isMutable": [
+      false,
+      false
+    ]
+  },
+  "functions": [
+    {
+      "name": "main",
+      "paramNames": [],
+      "paramTypes": [],
+      "paramIsMutable": [],
+      "returnTypes": []
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "version": "v3.8.5",
+  "name": "EndContest",
+  "bytecodeTemplate": "01010300000007b4d1a20c0c{0}0103",
+  "fieldsSig": {
+    "names": [
+      "contest"
+    ],
+    "types": [
+      "MemeContest"
+    ],
+    "isMutable": [
+      false
+    ]
+  },
+  "functions": [
+    {
+      "name": "main",
+      "paramNames": [],
+      "paramTypes": [],
+      "paramIsMutable": [],
+      "returnTypes": []
+    }
+  ]
+}

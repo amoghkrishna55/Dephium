@@ -1,0 +1,251 @@
+{
+  "version": "v3.8.5",
+  "name": "MemeContest",
+  "bytecode": "08070e40ef41c041e6421f426a4278010000000103d32103da06ce03020103030f004070d3e9ba5c47b4ce004513067b56ce0133107b56ce0232117b160047160140441703140a5f5f6d61705f5f305f5f160344cbc50c7b0c0d0d140a5f5f6d61705f5f305f5f160344cb170e160e01000d0d0d160e01000e0d0d160e01000c0d0d160e01010d0d0d160e01011708170717061705170416081913097b160416051606160203170d170c170b170a170916000d0c140a5f5f6d61705f5f305f5f160344cb01031600d1a2140a5f5f6d61705f5f305f5f1603441609160a160bb1160c160dd204021602a002334c041602a1021600a103061600160516026001010209004062d33de59b0e56ce01320d7b1600480e7b16014313202f0c7b1600ce03a9a001ce032aa1010c1702140a5f5f6d61705f5f315f5f16004744cbc54b0b1600d1a2140a5f5f6d61705f5f315f5f16004744b10cd201014a0a0c0d0d140a5f5f6d61705f5f315f5f16004744cb0101170216004716024044170316001601ce030c04170817071706170517041600d1a2140a5f5f6d61705f5f305f5f160344160416051606b116071608d2040216020d2a0c0e0c140a5f5f6d61705f5f315f5f16004744cb010205160016015f010100000013d356ec792956ce023313077ba0001913087ba003a001a807a003a0015f03a100010001010114d3f59fa77f140a5f5f6d61705f5f315f5f16004744cbc54c0a0c0d0d140a5f5f6d61705f5f315f5f16004744cb01014a010c0201000205054026d3526875da1600471601404417020c0d0d140a5f5f6d61705f5f305f5f160244cb1703160301000d0d0d160301000e0d0d160301000c0d0d160301010d0d0d1603010102010000000103d3f694988ba00102",
+  "codeHash": "f7cb3821f3e6d9848a535006451f17768621be4077ac7fa2e300a6d5e636b70b",
+  "fieldsSig": {
+    "names": [
+      "contestAdmin",
+      "submissionEnd",
+      "judgingEnd",
+      "entryFee",
+      "ended",
+      "totalPrizePool",
+      "highestScore",
+      "winningAddress"
+    ],
+    "types": [
+      "Address",
+      "U256",
+      "U256",
+      "U256",
+      "Bool",
+      "U256",
+      "U256",
+      "Address"
+    ],
+    "isMutable": [
+      false,
+      false,
+      false,
+      false,
+      true,
+      true,
+      true,
+      true
+    ]
+  },
+  "eventsSig": [
+    {
+      "name": "MemeSubmitted",
+      "fieldNames": [
+        "creator",
+        "memeHash"
+      ],
+      "fieldTypes": [
+        "Address",
+        "ByteVec"
+      ]
+    },
+    {
+      "name": "MemeJudged",
+      "fieldNames": [
+        "creator",
+        "memeHash",
+        "score"
+      ],
+      "fieldTypes": [
+        "Address",
+        "ByteVec",
+        "U256"
+      ]
+    },
+    {
+      "name": "ContestEnded",
+      "fieldNames": [
+        "winner",
+        "prize"
+      ],
+      "fieldTypes": [
+        "Address",
+        "U256"
+      ]
+    }
+  ],
+  "functions": [
+    {
+      "name": "entryFee",
+      "paramNames": [],
+      "paramTypes": [],
+      "paramIsMutable": [],
+      "returnTypes": [
+        "U256"
+      ]
+    },
+    {
+      "name": "judgeMeme",
+      "paramNames": [
+        "submitter",
+        "index",
+        "aiScore"
+      ],
+      "paramTypes": [
+        "Address",
+        "U256",
+        "U256"
+      ],
+      "paramIsMutable": [
+        false,
+        false,
+        false
+      ],
+      "returnTypes": []
+    },
+    {
+      "name": "submitMeme",
+      "paramNames": [
+        "creator",
+        "memeHash"
+      ],
+      "paramTypes": [
+        "Address",
+        "ByteVec"
+      ],
+      "paramIsMutable": [
+        false,
+        false
+      ],
+      "returnTypes": []
+    },
+    {
+      "name": "endContest",
+      "paramNames": [],
+      "paramTypes": [],
+      "paramIsMutable": [],
+      "returnTypes": []
+    },
+    {
+      "name": "getSubmissionCount",
+      "paramNames": [
+        "creator"
+      ],
+      "paramTypes": [
+        "Address"
+      ],
+      "paramIsMutable": [
+        false
+      ],
+      "returnTypes": [
+        "U256"
+      ]
+    },
+    {
+      "name": "getSubmission",
+      "paramNames": [
+        "creator",
+        "index"
+      ],
+      "paramTypes": [
+        "Address",
+        "U256"
+      ],
+      "paramIsMutable": [
+        false,
+        false
+      ],
+      "returnTypes": [
+        "MemeSubmission"
+      ]
+    },
+    {
+      "name": "getCurrentPrizePool",
+      "paramNames": [],
+      "paramTypes": [],
+      "paramIsMutable": [],
+      "returnTypes": [
+        "U256"
+      ]
+    }
+  ],
+  "constants": [],
+  "enums": [
+    {
+      "name": "ErrorCodes",
+      "fields": [
+        {
+          "name": "InvalidArg",
+          "value": {
+            "type": "U256",
+            "value": "0"
+          }
+        },
+        {
+          "name": "SubmissionsClosed",
+          "value": {
+            "type": "U256",
+            "value": "1"
+          }
+        },
+        {
+          "name": "InvalidCreatorAddress",
+          "value": {
+            "type": "U256",
+            "value": "2"
+          }
+        },
+        {
+          "name": "JudgingNotStarted",
+          "value": {
+            "type": "U256",
+            "value": "4"
+          }
+        },
+        {
+          "name": "JudgingEnded",
+          "value": {
+            "type": "U256",
+            "value": "5"
+          }
+        },
+        {
+          "name": "UnauthorizedJudging",
+          "value": {
+            "type": "U256",
+            "value": "6"
+          }
+        },
+        {
+          "name": "ContestNotEnded",
+          "value": {
+            "type": "U256",
+            "value": "7"
+          }
+        },
+        {
+          "name": "ContestAlreadyEnded",
+          "value": {
+            "type": "U256",
+            "value": "8"
+          }
+        },
+        {
+          "name": "MemeAlreadyJudged",
+          "value": {
+            "type": "U256",
+            "value": "9"
+          }
+        }
+      ]
+    }
+  ],
+  "mapsSig": {
+    "names": [
+      "submissions",
+      "submissionCount"
+    ],
+    "types": [
+      "Map[ByteVec,MemeSubmission]",
+      "Map[Address,U256]"
+    ]
+  }
+}

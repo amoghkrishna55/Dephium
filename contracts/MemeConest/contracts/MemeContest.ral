@@ -1,0 +1,128 @@
+struct MemeSubmission {
+  creatorAddress: Address,
+  memeHash: ByteVec,    
+  deposit: U256,        
+  mut score: U256,      
+  mut isJudged: Bool    
+}
+
+Contract MemeContest(
+  contestAdmin: Address,      
+  submissionEnd: U256,       
+  judgingEnd: U256,          
+  entryFee: U256,           
+  mut ended: Bool,
+  mut totalPrizePool: U256,
+  mut highestScore: U256,
+  mut winningAddress: Address
+) {
+  mapping[ByteVec, MemeSubmission] submissions
+  mapping[Address, U256] submissionCount
+  
+  event MemeSubmitted(creator: Address, memeHash: ByteVec)
+  event MemeJudged(creator: Address, memeHash: ByteVec, score: U256)
+  event ContestEnded(winner: Address, prize: U256)
+
+  enum ErrorCodes {
+    InvalidArg = 0
+    SubmissionsClosed = 1
+    InvalidCreatorAddress = 2
+    JudgingNotStarted = 4
+    JudgingEnded = 5
+    UnauthorizedJudging = 6
+    ContestNotEnded = 7
+    ContestAlreadyEnded = 8
+    MemeAlreadyJudged = 9
+  }
+  pub fn entryFee() -> U256 {
+    return entryFee
+  }
+  @using(updateFields = true, checkExternalCaller = false,preapprovedAssets=true)
+  pub fn judgeMeme(submitter: Address, index: U256, aiScore: U256) -> () {
+    assert!(callerAddress!() == contestAdmin, ErrorCodes.UnauthorizedJudging)
+    assert!(blockTimeStamp!() > submissionEnd, ErrorCodes.JudgingNotStarted)
+    assert!(blockTimeStamp!() <= judgingEnd, ErrorCodes.JudgingEnded)
+    
+    let submissionKey = toByteVec!(submitter) ++ toByteVec!(index)
+    assert!(submissions.contains!(submissionKey), ErrorCodes.InvalidArg)
+    
+    let submission = submissions[submissionKey]
+    assert!(!submission.isJudged, ErrorCodes.MemeAlreadyJudged)
+
+    let updatedSubmission = MemeSubmission {
+      creatorAddress: submission.creatorAddress,
+      memeHash: submission.memeHash,
+      deposit: submission.deposit,
+      score: aiScore,
+      isJudged: true
+    }
+    
+    // Remove old submission and insert updated one
+    submissions.remove!(submitter, submissionKey)
+    submissions.insert!(submitter, submissionKey, updatedSubmission)
+    
+    if (aiScore > highestScore) {
+      highestScore = aiScore
+      winningAddress = submitter
+    }
+    
+    emit MemeJudged(submitter, submission.memeHash, aiScore)
+  }
+
+  @using(preapprovedAssets = true, assetsInContract = true, checkExternalCaller = false,updateFields = true)
+  pub fn submitMeme(creator: Address, memeHash: ByteVec) -> () {
+    assert!(blockTimeStamp!() <= submissionEnd, ErrorCodes.SubmissionsClosed)
+    assert!(isAssetAddress!(creator), ErrorCodes.InvalidCreatorAddress)
+    assert!(size!(memeHash) == 32, ErrorCodes.InvalidArg)
+    
+    transferTokenToSelf!(creator, ALPH, entryFee)
+    totalPrizePool = totalPrizePool + entryFee
+
+    let mut count = 0
+    if (!submissionCount.contains!(creator)) {
+      submissionCount.insert!(creator, creator, 0)
+    } else {
+      count = submissionCount[creator]
+    }
+
+    let submissionKey = toByteVec!(creator) ++ toByteVec!(count)
+    let newSubmission = MemeSubmission {
+      creatorAddress: creator,
+      memeHash: memeHash,
+      deposit: entryFee,
+      score: 0,
+      isJudged: false
+    }
+    
+    submissions.insert!(creator, submissionKey, newSubmission)
+    submissionCount[creator] = count + 1
+    
+    emit MemeSubmitted(creator, memeHash)
+  }
+
+  @using(assetsInContract = true, checkExternalCaller = false, updateFields = true,preapprovedAssets=true)
+  pub fn endContest() -> () {
+    assert!(blockTimeStamp!() > judgingEnd, ErrorCodes.ContestNotEnded)
+    assert!(!ended, ErrorCodes.ContestAlreadyEnded)
+    
+    transferTokenFromSelf!(winningAddress, ALPH, totalPrizePool)
+    
+    emit ContestEnded(winningAddress, totalPrizePool)
+    ended = true
+  }
+
+  pub fn getSubmissionCount(creator: Address) -> U256 {
+    return if (submissionCount.contains!(creator)) submissionCount[creator] else 0
+  }
+
+  pub fn getSubmission(creator: Address, index: U256) -> MemeSubmission {
+    let submissionKey = toByteVec!(creator) ++ toByteVec!(index)
+    return submissions[submissionKey]
+  }
+
+  pub fn getCurrentPrizePool() -> U256 {
+    return totalPrizePool
+  }
+
+
+}

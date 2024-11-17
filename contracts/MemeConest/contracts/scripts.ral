@@ -1,0 +1,38 @@
+TxScript SubmitMeme(
+  contest: MemeContest, 
+  memeHash: ByteVec
+) {
+  contest.submitMeme{callerAddress!() -> ALPH: contest.entryFee() + minimalContractDeposit!()}(
+    callerAddress!(), 
+    memeHash
+  )
+}
+
+TxScript JudgeMeme(
+  contest: MemeContest,
+  submitter: Address,
+  index: U256,
+  aiScore: U256
+) {
+  contest.judgeMeme{callerAddress!() -> ALPH: minimalContractDeposit!()}(
+    submitter,
+    index,
+    aiScore
+  )
+}
+
+TxScript EndContest(
+  contest: MemeContest
+) {
+  contest.endContest{callerAddress!() -> ALPH: minimalContractDeposit!()}()
+}
+
+TxScript CheckSubmission(
+  contest: MemeContest,
+  creator: Address,
+  index: U256
+) {
+  let _ = contest.getSubmission(creator, index)
+  let _ = contest.getSubmissionCount(creator)
+  let _ = contest.getCurrentPrizePool()
+}

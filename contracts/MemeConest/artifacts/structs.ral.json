@@ -1,0 +1,26 @@
+[
+  {
+    "name": "MemeSubmission",
+    "fieldNames": [
+      "creatorAddress",
+      "memeHash",
+      "deposit",
+      "score",
+      "isJudged"
+    ],
+    "fieldTypes": [
+      "Address",
+      "ByteVec",
+      "U256",
+      "U256",
+      "Bool"
+    ],
+    "isMutable": [
+      false,
+      false,
+      false,
+      true,
+      true
+    ]
+  }
+]

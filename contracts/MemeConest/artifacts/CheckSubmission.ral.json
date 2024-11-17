@@ -1,0 +1,31 @@
+{
+  "version": "v3.8.5",
+  "name": "CheckSubmission",
+  "bytecodeTemplate": "01010300000016{1}{2}0e11{0}01051818181818{1}0d0d{0}0104180c0d{0}010618",
+  "fieldsSig": {
+    "names": [
+      "contest",
+      "creator",
+      "index"
+    ],
+    "types": [
+      "MemeContest",
+      "Address",
+      "U256"
+    ],
+    "isMutable": [
+      false,
+      false,
+      false
+    ]
+  },
+  "functions": [
+    {
+      "name": "main",
+      "paramNames": [],
+      "paramTypes": [],
+      "paramIsMutable": [],
+      "returnTypes": []
+    }
+  ]
+}
