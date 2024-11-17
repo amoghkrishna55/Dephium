@@ -59,7 +59,7 @@ export type ReviewSchema = z.infer<typeof reviewSchema>;
 const model = new ChatGoogleGenerativeAI({
   model: "gemini-1.5-flash",
   maxOutputTokens: 2048,
-  apiKey: "import.meta.env.VITE_GOOGLE_API_KEY",
+  apiKey: import.meta.env.VITE_GOOGLE_API_KEY,
 });
 
 export async function getMemeReview(
