@@ -7,10 +7,11 @@ import { useNavigate } from "react-router-dom";
 import { ChevronLeft } from "lucide-react";
 import Spongebob from "@/assets/spongebob.png";
 import Patrick from "@/assets/patrick.png";
+import { getMemeReview } from "@/llm/rating";
 
 const UploadMeme = () => {
   const [score, setScore] = useState<string>("");
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -21,6 +22,11 @@ const UploadMeme = () => {
       setPreviewUrl(URL.createObjectURL(acceptedFiles[0]));
     },
   });
+
+  const getreview = async () => {
+    const data = await getMemeReview(previewUrl, "SpongeBob");
+    console.log(data);
+  };
 
   const handleScoreChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -99,7 +105,9 @@ const UploadMeme = () => {
           <Button
             disabled={!previewUrl || !score || isLoading}
             className="w-full mt-8 bg-primary text-primary-foreground hover:opacity-90"
-            onClick={() => setIsLoading(true)}
+            onClick={() => {
+              setIsLoading(true), getreview();
+            }}
           >
             {isLoading
               ? "Getting SpongeBob's Opinion..."
