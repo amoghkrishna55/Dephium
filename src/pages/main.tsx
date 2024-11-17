@@ -11,7 +11,7 @@ const Main = () => {
     if (videoLoaded) {
       setTimeout(() => {
         setLoading(false);
-      }, 2000);
+      }, 3000);
     }
   }, [videoLoaded]);
 
