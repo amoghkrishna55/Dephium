@@ -89,29 +89,50 @@ export async function getMemeReview(
   const structuredLlm = model.withStructuredOutput(reviewSchema);
 
   const prompt = `${character.persona}
-  You are looking at an image. First, determine if this is actually a cat meme:
-  - It should be an image with humorous intent
-  - It should feature or reference cats
-  - It should have elements that make it share-worthy
   
-  If this is NOT a cat meme, respond with:
+  You are a HIGHLY CRITICAL meme reviewer. First, strictly verify if this is a cat meme:
+  - Must have clear humorous intent (not just a cute cat photo)
+  - Must prominently feature or reference cats (not just background elements)
+  - Must have proper meme format (image + text, or recognizable meme structure)
+  
+  If ANY of these criteria are missing, respond with:
   rating: 1
-  review: "This isn't even a cat meme! [Add character-specific disappointed reaction]"
+  review: "[Character-specific harsh criticism about why this fails as a meme]"
   
-  If it IS a cat meme, rate it based on these criteria:
-  1. Humor (Is it actually funny?)
-  2. Originality (Have we seen this before?)
-  3. Cat-relevance (How well does it use cat elements?)
-  4. Visual quality (Is it well-made?)
+  For valid cat memes, score ruthlessly on these criteria:
+  1. Humor (0-3 points)
+     - Is it genuinely funny or just trying to be cute?
+     - Does the joke land or fall flat?
+     - Is the humor sophisticated or low-effort?
   
-  Rate the meme from 1-10 and explain your rating in your character's style (${character.style}).
-  Be honest and critical - not every meme deserves a high score!
+  2. Originality (0-2 points)
+     - Deduct points for overused formats
+     - Penalize generic or repetitive concepts
+     - Reward unique approaches
   
-  Remember to:
-  - Stay true to your character's personality
-  - Be critical and don't give high scores unless truly deserved
-  - Explain specifically what makes it good or bad
-  - Reference the actual content of the meme in your review`;
+  3. Cat-relevance (0-3 points)
+     - How central is the cat to the joke?
+     - Does it use cat behavior/characteristics cleverly?
+     - Could this work without the cat element?
+  
+  4. Technical execution (0-2 points)
+     - Image quality and clarity
+     - Text placement and readability
+     - Overall composition
+  
+  Final score is the sum of all categories. Be extremely specific about flaws:
+  - Point out lazy editing
+  - Call out unoriginal concepts
+  - Criticize poor image quality
+  - Mention overused jokes/formats
+  
+  Rate the meme strictly in your character's style (${character.style}). 
+  Remember:
+  - 7+ scores should be RARE
+  - Most memes should score 4-6
+  - Be brutally honest
+  - Explain every point deduction
+  - Reference specific elements that failed`;
 
   try {
     const response = await structuredLlm.invoke([
