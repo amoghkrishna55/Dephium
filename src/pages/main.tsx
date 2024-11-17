@@ -5,15 +5,18 @@ import Loading from "./loading";
 const Main = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
+  const [videoLoaded, setVideoLoaded] = useState(false);
 
   useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-  }, []);
+    if (videoLoaded) {
+      setTimeout(() => {
+        setLoading(false);
+      }, 2000);
+    }
+  }, [videoLoaded]);
 
   return loading ? (
-    <Loading />
+    <Loading onVideoLoad={() => setVideoLoaded(true)} />
   ) : (
     <div className="min-h-screen bg-background">
       <header className="border-b border-border">
