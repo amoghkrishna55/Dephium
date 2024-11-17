@@ -1,8 +1,20 @@
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import Loading from "./loading";
 
 const Main = () => {
   const navigate = useNavigate();
-  return (
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  }, []);
+
+  return loading ? (
+    <Loading />
+  ) : (
     <div className="min-h-screen bg-background">
       <header className="border-b border-border">
         <nav className="container mx-auto px-4 py-6 flex justify-between items-center">
