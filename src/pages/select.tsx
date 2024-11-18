@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import catImage from "@/assets/cat.jpg";
 import survivlImage from "@/assets/survival.jpg";
+import { AlephiumConnectButton } from "@alephium/web3-react";
 
 const Select = () => {
   const navigate = useNavigate();
@@ -29,10 +30,7 @@ const Select = () => {
       <header className="border-b border-border">
         <nav className="container mx-auto px-4 py-6 flex justify-between items-center">
           <h1 className="text-2xl font-bold text-primary">Dephium</h1>
-          <Button className="px-4 py-2 rounded-lg bg-primary text-primary-foreground hover:opacity-90">
-            <span className="inline-block w-2 h-2 rounded-full bg-green-400 animate-pulse mr-2" />
-            Connect Wallet
-          </Button>
+          <AlephiumConnectButton />
         </nav>
       </header>
 
