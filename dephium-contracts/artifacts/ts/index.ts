@@ -2,5 +2,5 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export * from "./SpongeBobCatMemes";
+export * from "./Token";
 export * from "./scripts";

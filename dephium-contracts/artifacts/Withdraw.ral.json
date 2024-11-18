@@ -1,20 +1,17 @@
 {
   "version": "v3.8.5",
-  "name": "NewBid",
-  "bytecodeTemplate": "01010300000009b4d1a2{1}{2}0e0c{0}0100",
+  "name": "Withdraw",
+  "bytecodeTemplate": "01010300000005{1}0d0c{0}0105",
   "fieldsSig": {
     "names": [
-      "auction",
-      "win",
-      "amountWagered"
+      "token",
+      "amount"
     ],
     "types": [
-      "SpongeBobCatMemes",
-      "U256",
+      "Token",
       "U256"
     ],
     "isMutable": [
-      false,
       false,
       false
     ]

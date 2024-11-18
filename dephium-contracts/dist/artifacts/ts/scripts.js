@@ -3,5 +3,5 @@
 /* eslint-disable */
 import { ExecutableScript, Script, } from "@alephium/web3";
 import { getContractByCodeHash } from "./contracts";
-import { default as NewBidScriptJson } from "../NewBid.ral.json";
-export const NewBid = new ExecutableScript(Script.fromJson(NewBidScriptJson, "", []), getContractByCodeHash);
+import { default as WithdrawScriptJson } from "../Withdraw.ral.json";
+export const Withdraw = new ExecutableScript(Script.fromJson(WithdrawScriptJson, "", []), getContractByCodeHash);

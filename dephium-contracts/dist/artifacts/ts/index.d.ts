@@ -1,2 +1,2 @@
-export * from "./SpongeBobCatMemes";
+export * from "./Token";
 export * from "./scripts";

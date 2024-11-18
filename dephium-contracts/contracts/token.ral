@@ -1,20 +1,47 @@
-Contract SpongeBobCatMemes(
-    operatorAddress: Address,
-    mut winMultiplier: U256,
-    tokenID: ByteVec
-){  
-    @using (preapprovedAssets=true, checkExternalCaller=false, updateFields=true)
-    pub fn handleWin(win: U256,amountWagered: U256)->(){
+import "std/fungible_token_interface"
 
-     if(win == 1){
-         let amountToTransfer = amountWagered * winMultiplier
-         transferToken!(operatorAddress,callerAddress!(),tokenID,amountToTransfer)
-         winMultiplier = 1
-     }
-     else {
-            transferToken!(callerAddress!(),operatorAddress,tokenID,amountWagered)
-            winMultiplier = winMultiplier*(11/10)
-            
+Contract Token (
+    supply: U256,
+    decimals: U256,
+    name: ByteVec,
+    symbol: ByteVec,
+    mut balance : U256
+) implements IFungibleToken {
+
+    event Withdraw(to: Address, amount: U256)
+
+    enum ErrorCodes {
+        InvalidWithdrawAmount = 0
     }
+
+    pub fn getTotalSupply() -> U256 {
+        return supply
+    }
+
+    pub fn getDecimals() -> U256 {
+        return decimals
+    }
+
+    pub fn getName() -> ByteVec {
+        return name
+    }
+
+    pub fn getSymbol() -> ByteVec {
+        return symbol
+    }
+
+    pub fn balance() -> U256 {
+        return balance
+    }
+
+    @using(assetsInContract = true, updateFields = true, checkExternalCaller = false)
+    pub fn withdraw(amount: U256) -> () {
+        emit Debug(`The current balance is ${balance}`)
+
+        assert!(amount <= 2, ErrorCodes.InvalidWithdrawAmount)
+        transferTokenFromSelf!(callerAddress!(), selfTokenId!(), amount)
+        balance = balance - amount
+
+        emit Withdraw(callerAddress!(), amount)
     }
 }

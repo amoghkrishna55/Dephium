@@ -11,17 +11,23 @@
     "skipAbstractContractCheck": false
   },
   "infos": {
-    "NewBid": {
-      "sourceFile": "something.ral",
-      "sourceCodeHash": "da1a1ea17b0831b1e2f7b45099141e7e1b409096cac291fd2cc1cdb4564a6a4d",
+    "IFungibleToken": {
+      "sourceFile": "../../node_modules/@alephium/web3/std/fungible_token_interface.ral",
+      "sourceCodeHash": "62910bf11e1eeb6cb2fd468626ff606a9b06306b2b81590c3b10f6deb5966bde",
       "bytecodeDebugPatch": "",
       "codeHashDebug": ""
     },
-    "SpongeBobCatMemes": {
+    "Token": {
       "sourceFile": "token.ral",
-      "sourceCodeHash": "3dba865842d2333c32512771099e44280e84e68a94a50e9813d058c45a6aeb0e",
+      "sourceCodeHash": "5f42a6c732601daf0238ad98919cb5dd6afed120160bed9eae6dbfd918106b3c",
+      "bytecodeDebugPatch": "=20-2+71=111-1+4=10+a0007e02175468652063757272656e742062616c616e63652069732000=46",
+      "codeHashDebug": "b236af4a65fcb29c9a809222f1e7bdb4f1ec9d3fbd488c61a93b9d6160de40df"
+    },
+    "Withdraw": {
+      "sourceFile": "withdraw.ral",
+      "sourceCodeHash": "d65798169e3a8323a4d461b6e67c66beba6e5020d9df369920de5a7a2ecf4069",
       "bytecodeDebugPatch": "",
-      "codeHashDebug": "23f09147a68b2c7ea819bb6e6e0f79151a45100c9761ad16519c94b5cca7f633"
+      "codeHashDebug": ""
     }
   }
 }

@@ -12,10 +12,9 @@ import {
   HexString,
 } from "@alephium/web3";
 import { getContractByCodeHash } from "./contracts";
-import { default as NewBidScriptJson } from "../NewBid.ral.json";
+import { default as WithdrawScriptJson } from "../Withdraw.ral.json";
 
-export const NewBid = new ExecutableScript<{
-  auction: HexString;
-  win: bigint;
-  amountWagered: bigint;
-}>(Script.fromJson(NewBidScriptJson, "", []), getContractByCodeHash);
+export const Withdraw = new ExecutableScript<{
+  token: HexString;
+  amount: bigint;
+}>(Script.fromJson(WithdrawScriptJson, "", []), getContractByCodeHash);

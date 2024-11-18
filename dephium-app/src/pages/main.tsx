@@ -3,7 +3,8 @@ import { useState, useEffect } from "react";
 import Loading from "../components/loading";
 import { AlephiumConnectButton, useWallet } from "@alephium/web3-react";
 import { ExecuteScriptResult, SignerProvider } from "@alephium/web3";
-import { NewBid } from "dephium-contracts";
+import { Withdraw } from "dephium-contracts";
+import { loadDeployments } from "dephium-contracts/deployments";
 
 const Main = () => {
   // const navigate = useNavigate();
@@ -14,11 +15,11 @@ const Main = () => {
   const withdrawToken = async (
     signerProvider: SignerProvider
   ): Promise<ExecuteScriptResult> => {
-    return await NewBid.execute(signerProvider, {
+    return await Withdraw.execute(signerProvider, {
       initialFields: {
-        win: 1n,
-        amountWagered: BigInt(1),
-        auction: "29dtzK7bapRsrFefAW2QmJNEQPjgtgDDJeeTDnc3fVy4s",
+        amount: BigInt(1),
+        token:
+          loadDeployments("devnet").contracts.Token.contractInstance.contractId,
       },
     });
   };
