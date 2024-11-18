@@ -1,0 +1,20 @@
+Contract SpongeBobCatMemes(
+    operatorAddress: Address,
+    mut winMultiplier: U256,
+    tokenID: ByteVec
+){  
+    @using (preapprovedAssets=true, checkExternalCaller=false, updateFields=true)
+    pub fn handleWin(win: U256,amountWagered: U256)->(){
+
+     if(win == 1){
+         let amountToTransfer = amountWagered * winMultiplier
+         transferToken!(operatorAddress,callerAddress!(),tokenID,amountToTransfer)
+         winMultiplier = 1
+     }
+     else {
+            transferToken!(callerAddress!(),operatorAddress,tokenID,amountWagered)
+            winMultiplier = winMultiplier*(11/10)
+            
+    }
+    }
+}

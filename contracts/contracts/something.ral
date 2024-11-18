@@ -1,0 +1,3 @@
+TxScript NewBid(auction: SpongeBobCatMemes, win: U256, amountWagered: U256) {
+  SpongeBobCatMemes.handleWin{callerAddress!() -> ALPH : minimalContractDeposit!()}(win, amountWagered)
+  }

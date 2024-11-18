@@ -1,12 +1,27 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Loading from "../components/loading";
-import { AlephiumConnectButton } from "@alephium/web3-react";
+import { AlephiumConnectButton, useWallet } from "@alephium/web3-react";
+import { ExecuteScriptResult, SignerProvider } from "@alephium/web3";
+import { NewBid } from "../../gameContract/artifacts/ts/scripts";
 
 const Main = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [videoLoaded, setVideoLoaded] = useState(false);
+  const { signer } = useWallet();
+
+  const withdrawToken = async (
+    signerProvider: SignerProvider
+  ): Promise<ExecuteScriptResult> => {
+    return await NewBid.execute(signerProvider, {
+      initialFields: {
+        win: 1n,
+        amountWagered: BigInt(1),
+        auction: "29dtzK7bapRsrFefAW2QmJNEQPjgtgDDJeeTDnc3fVy4s",
+      },
+    });
+  };
 
   useEffect(() => {
     if (videoLoaded) {
@@ -67,7 +82,11 @@ const Main = () => {
 
         <section className="text-center">
           <button
-            onClick={() => navigate("/select")}
+            onClick={() => {
+              if (signer) {
+                withdrawToken(signer);
+              }
+            }}
             className="px-8 py-3 rounded-lg bg-primary text-primary-foreground text-lg font-semibold hover:opacity-90"
           >
             Start Staking Now

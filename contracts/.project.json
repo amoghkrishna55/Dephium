@@ -1,0 +1,27 @@
+{
+  "fullNodeVersion": "v3.8.5",
+  "compilerOptionsUsed": {
+    "ignoreUnusedConstantsWarnings": false,
+    "ignoreUnusedVariablesWarnings": false,
+    "ignoreUnusedFieldsWarnings": false,
+    "ignoreUnusedPrivateFunctionsWarnings": false,
+    "ignoreUpdateFieldsCheckWarnings": false,
+    "ignoreCheckExternalCallerWarnings": false,
+    "ignoreUnusedFunctionReturnWarnings": false,
+    "skipAbstractContractCheck": false
+  },
+  "infos": {
+    "NewBid": {
+      "sourceFile": "something.ral",
+      "sourceCodeHash": "ca267e65eaee587083ee01020dd0ffe4d08d94a62fb06ea6d255092c84fac244",
+      "bytecodeDebugPatch": "",
+      "codeHashDebug": ""
+    },
+    "SpongeBobCatMemes": {
+      "sourceFile": "token.ral",
+      "sourceCodeHash": "3dba865842d2333c32512771099e44280e84e68a94a50e9813d058c45a6aeb0e",
+      "bytecodeDebugPatch": "",
+      "codeHashDebug": "23f09147a68b2c7ea819bb6e6e0f79151a45100c9761ad16519c94b5cca7f633"
+    }
+  }
+}
