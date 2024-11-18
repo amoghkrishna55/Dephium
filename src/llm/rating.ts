@@ -98,7 +98,7 @@ export async function getMemeReview(
   IMPORTANT: Your review MUST be 20 characters or less!
   
   If ANY of these criteria are missing, respond with:
-  rating: 1
+  rating: 0
   review: "[Character-specific harsh criticism about why this fails as a meme]"
   
   For valid cat memes, score ruthlessly on these criteria:

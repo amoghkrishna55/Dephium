@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Loading from "../components/loading";
+import { AlephiumConnectButton } from "@alephium/web3-react";
 
 const Main = () => {
   const navigate = useNavigate();
@@ -23,9 +24,10 @@ const Main = () => {
         <nav className="container mx-auto px-4 py-6 flex justify-between items-center">
           <h1 className="text-2xl font-bold text-primary">Dephium</h1>
           <div className="flex gap-4">
-            <button className="px-4 py-2 rounded-lg bg-primary text-primary-foreground hover:opacity-90">
+            {/* <button className="px-4 py-2 rounded-lg bg-primary text-primary-foreground hover:opacity-90">
               Connect Wallet
-            </button>
+            </button> */}
+            <AlephiumConnectButton />
           </div>
         </nav>
       </header>
