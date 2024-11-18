@@ -1,0 +1,44 @@
+{
+  "version": "v3.8.5",
+  "name": "SpongeBobCatMemes",
+  "bytecode": "0301403701030203001cd368b7193c16000d2f4c0c1601a0002c1702ce00b4ce011602aa0da1004a0bb4ce00ce011601aaa000130b130a2d2ca100",
+  "codeHash": "23f09147a68b2c7ea819bb6e6e0f79151a45100c9761ad16519c94b5cca7f633",
+  "fieldsSig": {
+    "names": [
+      "operatorAddress",
+      "winMultiplier",
+      "tokenID"
+    ],
+    "types": [
+      "Address",
+      "U256",
+      "ByteVec"
+    ],
+    "isMutable": [
+      false,
+      true,
+      false
+    ]
+  },
+  "eventsSig": [],
+  "functions": [
+    {
+      "name": "handleWin",
+      "paramNames": [
+        "win",
+        "amountWagered"
+      ],
+      "paramTypes": [
+        "U256",
+        "U256"
+      ],
+      "paramIsMutable": [
+        false,
+        false
+      ],
+      "returnTypes": []
+    }
+  ],
+  "constants": [],
+  "enums": []
+}

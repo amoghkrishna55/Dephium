@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import Loading from "../components/loading";
 import { AlephiumConnectButton, useWallet } from "@alephium/web3-react";
 import { ExecuteScriptResult, SignerProvider } from "@alephium/web3";
-import { NewBid } from "../../gameContract/artifacts/ts/scripts";
+import { NewBid } from "dephium-contracts/artifacts/ts";
 
 const Main = () => {
   const navigate = useNavigate();

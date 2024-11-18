@@ -1,0 +1,31 @@
+{
+  "version": "v3.8.5",
+  "name": "NewBid",
+  "bytecodeTemplate": "01010300000009b4d1a2{1}{2}0e0c{0}0100",
+  "fieldsSig": {
+    "names": [
+      "auction",
+      "win",
+      "amountWagered"
+    ],
+    "types": [
+      "SpongeBobCatMemes",
+      "U256",
+      "U256"
+    ],
+    "isMutable": [
+      false,
+      false,
+      false
+    ]
+  },
+  "functions": [
+    {
+      "name": "main",
+      "paramNames": [],
+      "paramTypes": [],
+      "paramIsMutable": [],
+      "returnTypes": []
+    }
+  ]
+}

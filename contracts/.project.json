@@ -13,7 +13,7 @@
   "infos": {
     "NewBid": {
       "sourceFile": "something.ral",
-      "sourceCodeHash": "ca267e65eaee587083ee01020dd0ffe4d08d94a62fb06ea6d255092c84fac244",
+      "sourceCodeHash": "da1a1ea17b0831b1e2f7b45099141e7e1b409096cac291fd2cc1cdb4564a6a4d",
       "bytecodeDebugPatch": "",
       "codeHashDebug": ""
     },
