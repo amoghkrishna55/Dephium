@@ -1,0 +1,37 @@
+
+
+Contract SpongeBobCatMemes(
+    userAddress: Address,
+    mut operatorAddress: Address,
+    mut winMultiplier: U256,
+    tokenID: ByteVec
+){
+    enum ErrorCode{
+        INVALID_AMOUNT=0
+        INVALID_ADDRESS=1
+    }
+    pub fn getAddress()-> Address {
+        return userAddress
+    }
+    
+    @using (preapprovedAssets=true, checkExternalCaller=false, updateFields=true)
+    pub fn handleWin(win: U256,amountWagered: U256)->(){
+     operatorAddress = @1EoeVCgaXqhwmmfyLT9GeVw6i5iz6HsLMjrT79w5gdCoB
+
+     if(win == 1){
+         let amountToTransfer = amountWagered * winMultiplier
+         transferToken!(operatorAddress,userAddress,tokenID,amountToTransfer)
+         winMultiplier = 1
+     }
+     else {
+            transferToken!(userAddress,operatorAddress,tokenID,amountWagered)
+            winMultiplier = winMultiplier*(11/10)
+            
+    }
+    }
+
+
+    
+
+
+}
