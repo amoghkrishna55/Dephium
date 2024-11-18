@@ -1,14 +1,14 @@
 {
-  "name": "dephium",
-  "license": "ISC",
   "version": "1.0.0",
+  "license": "ISC",
   "workspaces": [
-    "app",
-    "contracts"
+    "dephium-app",
+    "dephium-contracts"
   ],
   "scripts": {
-    "dev": "npm run dev --workspace=dephium-app",
-    "compile": "npm run compile --workspace=dephium-contracts",
-    "deploy": "npm run deploy --workspace=dephium-contracts"
+    "dev": "npm run dev -w dephium-app",
+    "build": "npm run build -w dephium-app",
+    "compile": "npm run compile -w dephium-contracts",
+    "deploy": "npm run deploy -w dephium-contracts"
   }
 }

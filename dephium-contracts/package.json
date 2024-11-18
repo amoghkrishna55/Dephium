@@ -1,13 +1,14 @@
 {
   "name": "dephium-contracts",
   "version": "1.0.0",
-  "description": "Contracts for dephium app",
   "scripts": {
     "compile": "npx @alephium/cli@latest compile",
     "deploy": "npx @alephium/cli@latest deploy"
   },
+  "license": "ISC",
+  "description": "",
   "dependencies": {
-    "@alephium/cli": "^1.8.5",
-    "@alephium/web3": "^1.8.5"
+    "@alephium/web3": "^1.8.5",
+    "dotenv": "^16.4.5"
   }
 }
