@@ -7,7 +7,8 @@
   ],
   "scripts": {
     "dev": "npm run dev -w dephium-app",
-    "build": "npm run build -w dephium-app",
+    "build:app": "npm run build -w dephium-app",
+    "build:contracts": "npm run build -w dephium-contracts",
     "compile": "npm run compile -w dephium-contracts",
     "deploy": "npm run deploy -w dephium-contracts"
   }
