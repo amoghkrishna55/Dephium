@@ -11,7 +11,13 @@
       "default": "./dist/artifacts/ts/deployments.js"
     }
   },
-  "types": "dist/artifacts/ts/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/artifacts/ts/index.d.ts"
+      ]
+    }
+  },
   "scripts": {
     "build": "npm run clean && npx --yes tsc --build .",
     "clean": "npm run clean:windows && npm run clean:unix",
