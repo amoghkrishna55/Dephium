@@ -1,0 +1,40 @@
+Contract Defcoin (// State variables
+    max_defcoins: U256,
+    usd_to_defcoins: U256,
+    total_defcoins_bought: U256)
+    {
+    // Mapping for equity
+    mapping[Address, U256] equity_defcoins
+    mapping[Address, U256]equity_usd
+
+    // Modifier for checking if an investor can buy defcoins
+    fn can_buy_defcoins(usd_invested: U256) -> Bool {
+        return usd_invested * usd_to_defcoins + total_defcoins_bought <= max_defcoins
+    }
+
+    // Function to get equity in defcoins for an investor
+    pub fn equity_in_defcoins(investor: Address) -> U256 {
+        return equity_defcoins[investor]
+    }
+
+    // Function to get equity in USD for an investor
+    pub fn equity_in_usd(investor: Address) -> U256 {
+        return equity_usd[investor]
+    }
+
+    // Function to buy defcoins
+    pub fn buy_defcoin(investor: Address, usd_invested: U256) {
+        assert!(can_buy_defcoins(usd_invested), 0);
+        let defcoins_bought: U256 = usd_invested * usd_to_defcoins
+        equity_defcoins[investor] += defcoins_bought
+        equity_usd[investor] = equity_defcoins[investor] / 1000
+        total_defcoins_bought += defcoins_bought
+    }
+
+    // Function to sell defcoins
+    pub fn sell_defcoin(investor: Address, defcoins_sold: U256) {
+        equity_defcoins[investor] -= defcoins_sold
+        equity_usd[investor] = equity_defcoins[investor] / 1000
+        total_defcoins_bought -= defcoins_sold
+    }
+}
