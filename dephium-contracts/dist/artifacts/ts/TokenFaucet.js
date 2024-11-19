@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import { Contract, ContractFactory, subscribeContractEvent, testMethod, callMethod, multicallMethods, fetchContractState, ContractInstance, getContractEventsCurrentCount, signExecuteMethod, addStdIdToFields, encodeContractFields, } from "@alephium/web3";
-import { default as TokenContractJson } from "../Token.ral.json";
+import { default as TokenFaucetContractJson } from "../TokenFaucet.ral.json";
 import { getContractByCodeHash, registerContract } from "./contracts";
 class Factory extends ContractFactory {
     constructor() {
@@ -34,70 +34,70 @@ class Factory extends ContractFactory {
         return encodeContractFields(addStdIdToFields(this.contract, fields), this.contract.fieldsSig, []);
     }
     at(address) {
-        return new TokenInstance(address);
+        return new TokenFaucetInstance(address);
     }
     stateForTest(initFields, asset, address) {
         return this.stateForTest_(initFields, asset, address, undefined);
     }
 }
 // Use this object to test and deploy the contract
-export const Token = new Factory(Contract.fromJson(TokenContractJson, "=20-2+71=111-1+4=10+a0007e02175468652063757272656e742062616c616e63652069732000=46", "b236af4a65fcb29c9a809222f1e7bdb4f1ec9d3fbd488c61a93b9d6160de40df", []));
-registerContract(Token);
+export const TokenFaucet = new Factory(Contract.fromJson(TokenFaucetContractJson, "=20-2+71=111-1+4=10+a0007e02175468652063757272656e742062616c616e63652069732000=46", "06b49f3673daa80e1a2452f6478c177652dd9b9a5730be557aa9dd6dda347152", []));
+registerContract(TokenFaucet);
 // Use this class to interact with the blockchain
-export class TokenInstance extends ContractInstance {
+export class TokenFaucetInstance extends ContractInstance {
     constructor(address) {
         super(address);
         this.view = {
             getSymbol: async (params) => {
-                return callMethod(Token, this, "getSymbol", params === undefined ? {} : params, getContractByCodeHash);
+                return callMethod(TokenFaucet, this, "getSymbol", params === undefined ? {} : params, getContractByCodeHash);
             },
             getName: async (params) => {
-                return callMethod(Token, this, "getName", params === undefined ? {} : params, getContractByCodeHash);
+                return callMethod(TokenFaucet, this, "getName", params === undefined ? {} : params, getContractByCodeHash);
             },
             getDecimals: async (params) => {
-                return callMethod(Token, this, "getDecimals", params === undefined ? {} : params, getContractByCodeHash);
+                return callMethod(TokenFaucet, this, "getDecimals", params === undefined ? {} : params, getContractByCodeHash);
             },
             getTotalSupply: async (params) => {
-                return callMethod(Token, this, "getTotalSupply", params === undefined ? {} : params, getContractByCodeHash);
+                return callMethod(TokenFaucet, this, "getTotalSupply", params === undefined ? {} : params, getContractByCodeHash);
             },
             balance: async (params) => {
-                return callMethod(Token, this, "balance", params === undefined ? {} : params, getContractByCodeHash);
+                return callMethod(TokenFaucet, this, "balance", params === undefined ? {} : params, getContractByCodeHash);
             },
             withdraw: async (params) => {
-                return callMethod(Token, this, "withdraw", params, getContractByCodeHash);
+                return callMethod(TokenFaucet, this, "withdraw", params, getContractByCodeHash);
             },
         };
         this.transact = {
             getSymbol: async (params) => {
-                return signExecuteMethod(Token, this, "getSymbol", params);
+                return signExecuteMethod(TokenFaucet, this, "getSymbol", params);
             },
             getName: async (params) => {
-                return signExecuteMethod(Token, this, "getName", params);
+                return signExecuteMethod(TokenFaucet, this, "getName", params);
             },
             getDecimals: async (params) => {
-                return signExecuteMethod(Token, this, "getDecimals", params);
+                return signExecuteMethod(TokenFaucet, this, "getDecimals", params);
             },
             getTotalSupply: async (params) => {
-                return signExecuteMethod(Token, this, "getTotalSupply", params);
+                return signExecuteMethod(TokenFaucet, this, "getTotalSupply", params);
             },
             balance: async (params) => {
-                return signExecuteMethod(Token, this, "balance", params);
+                return signExecuteMethod(TokenFaucet, this, "balance", params);
             },
             withdraw: async (params) => {
-                return signExecuteMethod(Token, this, "withdraw", params);
+                return signExecuteMethod(TokenFaucet, this, "withdraw", params);
             },
         };
     }
     async fetchState() {
-        return fetchContractState(Token, this);
+        return fetchContractState(TokenFaucet, this);
     }
     async getContractEventsCurrentCount() {
         return getContractEventsCurrentCount(this.address);
     }
     subscribeWithdrawEvent(options, fromCount) {
-        return subscribeContractEvent(Token.contract, this, options, "Withdraw", fromCount);
+        return subscribeContractEvent(TokenFaucet.contract, this, options, "Withdraw", fromCount);
     }
     async multicall(callss) {
-        return await multicallMethods(Token, this, callss, getContractByCodeHash);
+        return await multicallMethods(TokenFaucet, this, callss, getContractByCodeHash);
     }
 }

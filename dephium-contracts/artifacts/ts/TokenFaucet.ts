@@ -33,16 +33,16 @@ import {
   encodeContractFields,
   Narrow,
 } from "@alephium/web3";
-import { default as TokenContractJson } from "../Token.ral.json";
+import { default as TokenFaucetContractJson } from "../TokenFaucet.ral.json";
 import { getContractByCodeHash, registerContract } from "./contracts";
 
 // Custom types for the contract
-export namespace TokenTypes {
+export namespace TokenFaucetTypes {
   export type Fields = {
-    supply: bigint;
-    decimals: bigint;
-    name: HexString;
     symbol: HexString;
+    name: HexString;
+    decimals: bigint;
+    supply: bigint;
     balance: bigint;
   };
 
@@ -124,8 +124,11 @@ export namespace TokenTypes {
     SignExecuteMethodTable[T]["result"];
 }
 
-class Factory extends ContractFactory<TokenInstance, TokenTypes.Fields> {
-  encodeFields(fields: TokenTypes.Fields) {
+class Factory extends ContractFactory<
+  TokenFaucetInstance,
+  TokenFaucetTypes.Fields
+> {
+  encodeFields(fields: TokenFaucetTypes.Fields) {
     return encodeContractFields(
       addStdIdToFields(this.contract, fields),
       this.contract.fieldsSig,
@@ -136,14 +139,14 @@ class Factory extends ContractFactory<TokenInstance, TokenTypes.Fields> {
   eventIndex = { Withdraw: 0 };
   consts = { ErrorCodes: { InvalidWithdrawAmount: BigInt("0") } };
 
-  at(address: string): TokenInstance {
-    return new TokenInstance(address);
+  at(address: string): TokenFaucetInstance {
+    return new TokenFaucetInstance(address);
   }
 
   tests = {
     getSymbol: async (
       params: Omit<
-        TestContractParamsWithoutMaps<TokenTypes.Fields, never>,
+        TestContractParamsWithoutMaps<TokenFaucetTypes.Fields, never>,
         "testArgs"
       >
     ): Promise<TestContractResultWithoutMaps<HexString>> => {
@@ -151,7 +154,7 @@ class Factory extends ContractFactory<TokenInstance, TokenTypes.Fields> {
     },
     getName: async (
       params: Omit<
-        TestContractParamsWithoutMaps<TokenTypes.Fields, never>,
+        TestContractParamsWithoutMaps<TokenFaucetTypes.Fields, never>,
         "testArgs"
       >
     ): Promise<TestContractResultWithoutMaps<HexString>> => {
@@ -159,7 +162,7 @@ class Factory extends ContractFactory<TokenInstance, TokenTypes.Fields> {
     },
     getDecimals: async (
       params: Omit<
-        TestContractParamsWithoutMaps<TokenTypes.Fields, never>,
+        TestContractParamsWithoutMaps<TokenFaucetTypes.Fields, never>,
         "testArgs"
       >
     ): Promise<TestContractResultWithoutMaps<bigint>> => {
@@ -167,7 +170,7 @@ class Factory extends ContractFactory<TokenInstance, TokenTypes.Fields> {
     },
     getTotalSupply: async (
       params: Omit<
-        TestContractParamsWithoutMaps<TokenTypes.Fields, never>,
+        TestContractParamsWithoutMaps<TokenFaucetTypes.Fields, never>,
         "testArgs"
       >
     ): Promise<TestContractResultWithoutMaps<bigint>> => {
@@ -175,7 +178,7 @@ class Factory extends ContractFactory<TokenInstance, TokenTypes.Fields> {
     },
     balance: async (
       params: Omit<
-        TestContractParamsWithoutMaps<TokenTypes.Fields, never>,
+        TestContractParamsWithoutMaps<TokenFaucetTypes.Fields, never>,
         "testArgs"
       >
     ): Promise<TestContractResultWithoutMaps<bigint>> => {
@@ -183,7 +186,7 @@ class Factory extends ContractFactory<TokenInstance, TokenTypes.Fields> {
     },
     withdraw: async (
       params: TestContractParamsWithoutMaps<
-        TokenTypes.Fields,
+        TokenFaucetTypes.Fields,
         { amount: bigint }
       >
     ): Promise<TestContractResultWithoutMaps<null>> => {
@@ -191,30 +194,34 @@ class Factory extends ContractFactory<TokenInstance, TokenTypes.Fields> {
     },
   };
 
-  stateForTest(initFields: TokenTypes.Fields, asset?: Asset, address?: string) {
+  stateForTest(
+    initFields: TokenFaucetTypes.Fields,
+    asset?: Asset,
+    address?: string
+  ) {
     return this.stateForTest_(initFields, asset, address, undefined);
   }
 }
 
 // Use this object to test and deploy the contract
-export const Token = new Factory(
+export const TokenFaucet = new Factory(
   Contract.fromJson(
-    TokenContractJson,
+    TokenFaucetContractJson,
     "=20-2+71=111-1+4=10+a0007e02175468652063757272656e742062616c616e63652069732000=46",
-    "b236af4a65fcb29c9a809222f1e7bdb4f1ec9d3fbd488c61a93b9d6160de40df",
+    "06b49f3673daa80e1a2452f6478c177652dd9b9a5730be557aa9dd6dda347152",
     []
   )
 );
-registerContract(Token);
+registerContract(TokenFaucet);
 
 // Use this class to interact with the blockchain
-export class TokenInstance extends ContractInstance {
+export class TokenFaucetInstance extends ContractInstance {
   constructor(address: Address) {
     super(address);
   }
 
-  async fetchState(): Promise<TokenTypes.State> {
-    return fetchContractState(Token, this);
+  async fetchState(): Promise<TokenFaucetTypes.State> {
+    return fetchContractState(TokenFaucet, this);
   }
 
   async getContractEventsCurrentCount(): Promise<number> {
@@ -222,11 +229,11 @@ export class TokenInstance extends ContractInstance {
   }
 
   subscribeWithdrawEvent(
-    options: EventSubscribeOptions<TokenTypes.WithdrawEvent>,
+    options: EventSubscribeOptions<TokenFaucetTypes.WithdrawEvent>,
     fromCount?: number
   ): EventSubscription {
     return subscribeContractEvent(
-      Token.contract,
+      TokenFaucet.contract,
       this,
       options,
       "Withdraw",
@@ -236,10 +243,10 @@ export class TokenInstance extends ContractInstance {
 
   view = {
     getSymbol: async (
-      params?: TokenTypes.CallMethodParams<"getSymbol">
-    ): Promise<TokenTypes.CallMethodResult<"getSymbol">> => {
+      params?: TokenFaucetTypes.CallMethodParams<"getSymbol">
+    ): Promise<TokenFaucetTypes.CallMethodResult<"getSymbol">> => {
       return callMethod(
-        Token,
+        TokenFaucet,
         this,
         "getSymbol",
         params === undefined ? {} : params,
@@ -247,10 +254,10 @@ export class TokenInstance extends ContractInstance {
       );
     },
     getName: async (
-      params?: TokenTypes.CallMethodParams<"getName">
-    ): Promise<TokenTypes.CallMethodResult<"getName">> => {
+      params?: TokenFaucetTypes.CallMethodParams<"getName">
+    ): Promise<TokenFaucetTypes.CallMethodResult<"getName">> => {
       return callMethod(
-        Token,
+        TokenFaucet,
         this,
         "getName",
         params === undefined ? {} : params,
@@ -258,10 +265,10 @@ export class TokenInstance extends ContractInstance {
       );
     },
     getDecimals: async (
-      params?: TokenTypes.CallMethodParams<"getDecimals">
-    ): Promise<TokenTypes.CallMethodResult<"getDecimals">> => {
+      params?: TokenFaucetTypes.CallMethodParams<"getDecimals">
+    ): Promise<TokenFaucetTypes.CallMethodResult<"getDecimals">> => {
       return callMethod(
-        Token,
+        TokenFaucet,
         this,
         "getDecimals",
         params === undefined ? {} : params,
@@ -269,10 +276,10 @@ export class TokenInstance extends ContractInstance {
       );
     },
     getTotalSupply: async (
-      params?: TokenTypes.CallMethodParams<"getTotalSupply">
-    ): Promise<TokenTypes.CallMethodResult<"getTotalSupply">> => {
+      params?: TokenFaucetTypes.CallMethodParams<"getTotalSupply">
+    ): Promise<TokenFaucetTypes.CallMethodResult<"getTotalSupply">> => {
       return callMethod(
-        Token,
+        TokenFaucet,
         this,
         "getTotalSupply",
         params === undefined ? {} : params,
@@ -280,10 +287,10 @@ export class TokenInstance extends ContractInstance {
       );
     },
     balance: async (
-      params?: TokenTypes.CallMethodParams<"balance">
-    ): Promise<TokenTypes.CallMethodResult<"balance">> => {
+      params?: TokenFaucetTypes.CallMethodParams<"balance">
+    ): Promise<TokenFaucetTypes.CallMethodResult<"balance">> => {
       return callMethod(
-        Token,
+        TokenFaucet,
         this,
         "balance",
         params === undefined ? {} : params,
@@ -291,54 +298,67 @@ export class TokenInstance extends ContractInstance {
       );
     },
     withdraw: async (
-      params: TokenTypes.CallMethodParams<"withdraw">
-    ): Promise<TokenTypes.CallMethodResult<"withdraw">> => {
-      return callMethod(Token, this, "withdraw", params, getContractByCodeHash);
+      params: TokenFaucetTypes.CallMethodParams<"withdraw">
+    ): Promise<TokenFaucetTypes.CallMethodResult<"withdraw">> => {
+      return callMethod(
+        TokenFaucet,
+        this,
+        "withdraw",
+        params,
+        getContractByCodeHash
+      );
     },
   };
 
   transact = {
     getSymbol: async (
-      params: TokenTypes.SignExecuteMethodParams<"getSymbol">
-    ): Promise<TokenTypes.SignExecuteMethodResult<"getSymbol">> => {
-      return signExecuteMethod(Token, this, "getSymbol", params);
+      params: TokenFaucetTypes.SignExecuteMethodParams<"getSymbol">
+    ): Promise<TokenFaucetTypes.SignExecuteMethodResult<"getSymbol">> => {
+      return signExecuteMethod(TokenFaucet, this, "getSymbol", params);
     },
     getName: async (
-      params: TokenTypes.SignExecuteMethodParams<"getName">
-    ): Promise<TokenTypes.SignExecuteMethodResult<"getName">> => {
-      return signExecuteMethod(Token, this, "getName", params);
+      params: TokenFaucetTypes.SignExecuteMethodParams<"getName">
+    ): Promise<TokenFaucetTypes.SignExecuteMethodResult<"getName">> => {
+      return signExecuteMethod(TokenFaucet, this, "getName", params);
     },
     getDecimals: async (
-      params: TokenTypes.SignExecuteMethodParams<"getDecimals">
-    ): Promise<TokenTypes.SignExecuteMethodResult<"getDecimals">> => {
-      return signExecuteMethod(Token, this, "getDecimals", params);
+      params: TokenFaucetTypes.SignExecuteMethodParams<"getDecimals">
+    ): Promise<TokenFaucetTypes.SignExecuteMethodResult<"getDecimals">> => {
+      return signExecuteMethod(TokenFaucet, this, "getDecimals", params);
     },
     getTotalSupply: async (
-      params: TokenTypes.SignExecuteMethodParams<"getTotalSupply">
-    ): Promise<TokenTypes.SignExecuteMethodResult<"getTotalSupply">> => {
-      return signExecuteMethod(Token, this, "getTotalSupply", params);
+      params: TokenFaucetTypes.SignExecuteMethodParams<"getTotalSupply">
+    ): Promise<TokenFaucetTypes.SignExecuteMethodResult<"getTotalSupply">> => {
+      return signExecuteMethod(TokenFaucet, this, "getTotalSupply", params);
     },
     balance: async (
-      params: TokenTypes.SignExecuteMethodParams<"balance">
-    ): Promise<TokenTypes.SignExecuteMethodResult<"balance">> => {
-      return signExecuteMethod(Token, this, "balance", params);
+      params: TokenFaucetTypes.SignExecuteMethodParams<"balance">
+    ): Promise<TokenFaucetTypes.SignExecuteMethodResult<"balance">> => {
+      return signExecuteMethod(TokenFaucet, this, "balance", params);
     },
     withdraw: async (
-      params: TokenTypes.SignExecuteMethodParams<"withdraw">
-    ): Promise<TokenTypes.SignExecuteMethodResult<"withdraw">> => {
-      return signExecuteMethod(Token, this, "withdraw", params);
+      params: TokenFaucetTypes.SignExecuteMethodParams<"withdraw">
+    ): Promise<TokenFaucetTypes.SignExecuteMethodResult<"withdraw">> => {
+      return signExecuteMethod(TokenFaucet, this, "withdraw", params);
     },
   };
 
-  async multicall<Calls extends TokenTypes.MultiCallParams>(
+  async multicall<Calls extends TokenFaucetTypes.MultiCallParams>(
     calls: Calls
-  ): Promise<TokenTypes.MultiCallResults<Calls>>;
-  async multicall<Callss extends TokenTypes.MultiCallParams[]>(
+  ): Promise<TokenFaucetTypes.MultiCallResults<Calls>>;
+  async multicall<Callss extends TokenFaucetTypes.MultiCallParams[]>(
     callss: Narrow<Callss>
-  ): Promise<TokenTypes.MulticallReturnType<Callss>>;
+  ): Promise<TokenFaucetTypes.MulticallReturnType<Callss>>;
   async multicall<
-    Callss extends TokenTypes.MultiCallParams | TokenTypes.MultiCallParams[]
+    Callss extends
+      | TokenFaucetTypes.MultiCallParams
+      | TokenFaucetTypes.MultiCallParams[]
   >(callss: Callss): Promise<unknown> {
-    return await multicallMethods(Token, this, callss, getContractByCodeHash);
+    return await multicallMethods(
+      TokenFaucet,
+      this,
+      callss,
+      getContractByCodeHash
+    );
   }
 }

@@ -1,25 +1,31 @@
-import dotenv from "dotenv";
 import { Configuration } from "@alephium/cli";
+import { Number256 } from "@alephium/web3";
+import dotenv from "dotenv";
 dotenv.config();
 
-export type Settings = {};
+export type Settings = {
+  issueTokenAmount: Number256;
+};
+const defaultSettings: Settings = { issueTokenAmount: 100n };
 
 const configuration: Configuration<Settings> = {
   networks: {
     devnet: {
-      nodeUrl: "http://localhost:22973",
+      nodeUrl: "http://127.0.0.1:22973",
       privateKeys: [process.env.PRIVATE_KEY as string],
-      settings: {},
+      settings: defaultSettings,
     },
+
     testnet: {
       nodeUrl: "https://node.testnet.alephium.org",
       privateKeys: [process.env.PRIVATE_KEY as string],
-      settings: {},
+      settings: defaultSettings,
     },
+
     mainnet: {
       nodeUrl: "https://node.mainnet.alephium.org",
       privateKeys: [process.env.PRIVATE_KEY as string],
-      settings: {},
+      settings: defaultSettings,
     },
   },
 };

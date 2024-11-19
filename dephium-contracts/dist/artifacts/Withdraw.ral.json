@@ -8,7 +8,7 @@
             "amount"
         ],
         "types": [
-            "Token",
+            "TokenFaucet",
             "U256"
         ],
         "isMutable": [

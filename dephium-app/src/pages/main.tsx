@@ -2,9 +2,8 @@
 import { useState, useEffect } from "react";
 import Loading from "../components/loading";
 import { AlephiumConnectButton, useWallet } from "@alephium/web3-react";
-import { ExecuteScriptResult, SignerProvider } from "@alephium/web3";
-import { Withdraw } from "dephium-contracts";
-import { loadDeployments } from "dephium-contracts/deployments";
+import { withdrawToken } from "../services/token.service";
+import { tokenFaucetConfig } from "../services/utils";
 
 const Main = () => {
   // const navigate = useNavigate();
@@ -12,23 +11,22 @@ const Main = () => {
   const [videoLoaded, setVideoLoaded] = useState(false);
   const { signer } = useWallet();
 
-  const withdrawToken = async (
-    signerProvider: SignerProvider
-  ): Promise<ExecuteScriptResult> => {
-    return await Withdraw.execute(signerProvider, {
-      initialFields: {
-        amount: BigInt(1),
-        token:
-          loadDeployments("devnet").contracts.Token.contractInstance.contractId,
-      },
-    });
+  const withdrawTokens = async () => {
+    if (signer) {
+      const result = await withdrawToken(
+        signer,
+        "1",
+        tokenFaucetConfig.faucetTokenId
+      );
+      console.log(result);
+    }
   };
 
   useEffect(() => {
     if (videoLoaded) {
       setTimeout(() => {
         setLoading(false);
-      }, 3000);
+      }, 100);
     }
   }, [videoLoaded]);
 
@@ -85,7 +83,7 @@ const Main = () => {
           <button
             onClick={() => {
               if (signer) {
-                withdrawToken(signer);
+                withdrawTokens();
                 console.log("Withdrawn token");
               }
             }}

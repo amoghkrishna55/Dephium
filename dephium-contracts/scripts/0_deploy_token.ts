@@ -1,27 +1,34 @@
-import { DeployFunction, Deployer, Network } from "@alephium/cli";
+import { Deployer, DeployFunction, Network } from "@alephium/cli";
 import { Settings } from "../alephium.config";
-import { Token } from "../artifacts/ts";
+import { TokenFaucet } from "../artifacts/ts";
 import { stringToHex } from "@alephium/web3";
 
-const deployToken: DeployFunction<Settings> = async (
+// This deploy function will be called by cli deployment tool automatically
+// Note that deployment scripts should prefixed with numbers (starting from 0)
+const deployFaucet: DeployFunction<Settings> = async (
   deployer: Deployer,
   network: Network<Settings>
-) => {
-  const result = await deployer.deployContract(Token, {
-    issueTokenAmount: 10000n,
+): Promise<void> => {
+  // Get settings
+  const issueTokenAmount = network.settings.issueTokenAmount;
+  const result = await deployer.deployContract(TokenFaucet, {
+    // The amount of token to be issued
+    issueTokenAmount: issueTokenAmount,
+    // The initial states of the faucet contract
     initialFields: {
-      name: stringToHex("X Token"),
-      symbol: stringToHex("XTK"),
-      decimals: 2n,
-      supply: 10000n,
-      balance: 20000n,
+      symbol: stringToHex("TF"),
+      name: stringToHex("TokenFaucet"),
+      decimals: 18n,
+      supply: issueTokenAmount,
+      balance: issueTokenAmount,
     },
-    issueTokenTo: deployer.account.address,
   });
-
-  const contractAddress = result.contractInstance.address;
-  const tokenId = result.contractInstance.contractId;
-  console.log(`Token deployed at ${contractAddress} with token id ${tokenId}`);
+  console.log(
+    "Token faucet contract id: " + result.contractInstance.contractId
+  );
+  console.log(
+    "Token faucet contract address: " + result.contractInstance.address
+  );
 };
 
-export default deployToken;
+export default deployFaucet;
