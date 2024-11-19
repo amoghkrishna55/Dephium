@@ -1,2 +1,2 @@
-export * from "./TokenFaucet";
+export * from "./DephiumCoin";
 export * from "./scripts";

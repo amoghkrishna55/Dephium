@@ -33,22 +33,23 @@ import {
   encodeContractFields,
   Narrow,
 } from "@alephium/web3";
-import { default as TokenFaucetContractJson } from "../TokenFaucet.ral.json";
+import { default as DephiumCoinContractJson } from "../DephiumCoin.ral.json";
 import { getContractByCodeHash, registerContract } from "./contracts";
 
 // Custom types for the contract
-export namespace TokenFaucetTypes {
+export namespace DephiumCoinTypes {
   export type Fields = {
     symbol: HexString;
     name: HexString;
     decimals: bigint;
     supply: bigint;
     balance: bigint;
+    ownerAddress: Address;
   };
 
   export type State = ContractState<Fields>;
 
-  export type WithdrawEvent = ContractEvent<{ to: Address; amount: bigint }>;
+  export type IssueEvent = ContractEvent<{ to: Address; amount: bigint }>;
 
   export interface CallMethodTable {
     getSymbol: {
@@ -71,7 +72,7 @@ export namespace TokenFaucetTypes {
       params: Omit<CallContractParams<{}>, "args">;
       result: CallContractResult<bigint>;
     };
-    withdraw: {
+    issueDephiumCoin: {
       params: CallContractParams<{ amount: bigint }>;
       result: CallContractResult<null>;
     };
@@ -113,7 +114,7 @@ export namespace TokenFaucetTypes {
       params: Omit<SignExecuteContractMethodParams<{}>, "args">;
       result: SignExecuteScriptTxResult;
     };
-    withdraw: {
+    issueDephiumCoin: {
       params: SignExecuteContractMethodParams<{ amount: bigint }>;
       result: SignExecuteScriptTxResult;
     };
@@ -125,10 +126,10 @@ export namespace TokenFaucetTypes {
 }
 
 class Factory extends ContractFactory<
-  TokenFaucetInstance,
-  TokenFaucetTypes.Fields
+  DephiumCoinInstance,
+  DephiumCoinTypes.Fields
 > {
-  encodeFields(fields: TokenFaucetTypes.Fields) {
+  encodeFields(fields: DephiumCoinTypes.Fields) {
     return encodeContractFields(
       addStdIdToFields(this.contract, fields),
       this.contract.fieldsSig,
@@ -136,17 +137,16 @@ class Factory extends ContractFactory<
     );
   }
 
-  eventIndex = { Withdraw: 0 };
-  consts = { ErrorCodes: { InvalidWithdrawAmount: BigInt("0") } };
+  eventIndex = { Issue: 0 };
 
-  at(address: string): TokenFaucetInstance {
-    return new TokenFaucetInstance(address);
+  at(address: string): DephiumCoinInstance {
+    return new DephiumCoinInstance(address);
   }
 
   tests = {
     getSymbol: async (
       params: Omit<
-        TestContractParamsWithoutMaps<TokenFaucetTypes.Fields, never>,
+        TestContractParamsWithoutMaps<DephiumCoinTypes.Fields, never>,
         "testArgs"
       >
     ): Promise<TestContractResultWithoutMaps<HexString>> => {
@@ -154,7 +154,7 @@ class Factory extends ContractFactory<
     },
     getName: async (
       params: Omit<
-        TestContractParamsWithoutMaps<TokenFaucetTypes.Fields, never>,
+        TestContractParamsWithoutMaps<DephiumCoinTypes.Fields, never>,
         "testArgs"
       >
     ): Promise<TestContractResultWithoutMaps<HexString>> => {
@@ -162,7 +162,7 @@ class Factory extends ContractFactory<
     },
     getDecimals: async (
       params: Omit<
-        TestContractParamsWithoutMaps<TokenFaucetTypes.Fields, never>,
+        TestContractParamsWithoutMaps<DephiumCoinTypes.Fields, never>,
         "testArgs"
       >
     ): Promise<TestContractResultWithoutMaps<bigint>> => {
@@ -170,7 +170,7 @@ class Factory extends ContractFactory<
     },
     getTotalSupply: async (
       params: Omit<
-        TestContractParamsWithoutMaps<TokenFaucetTypes.Fields, never>,
+        TestContractParamsWithoutMaps<DephiumCoinTypes.Fields, never>,
         "testArgs"
       >
     ): Promise<TestContractResultWithoutMaps<bigint>> => {
@@ -178,24 +178,29 @@ class Factory extends ContractFactory<
     },
     balance: async (
       params: Omit<
-        TestContractParamsWithoutMaps<TokenFaucetTypes.Fields, never>,
+        TestContractParamsWithoutMaps<DephiumCoinTypes.Fields, never>,
         "testArgs"
       >
     ): Promise<TestContractResultWithoutMaps<bigint>> => {
       return testMethod(this, "balance", params, getContractByCodeHash);
     },
-    withdraw: async (
+    issueDephiumCoin: async (
       params: TestContractParamsWithoutMaps<
-        TokenFaucetTypes.Fields,
+        DephiumCoinTypes.Fields,
         { amount: bigint }
       >
     ): Promise<TestContractResultWithoutMaps<null>> => {
-      return testMethod(this, "withdraw", params, getContractByCodeHash);
+      return testMethod(
+        this,
+        "issueDephiumCoin",
+        params,
+        getContractByCodeHash
+      );
     },
   };
 
   stateForTest(
-    initFields: TokenFaucetTypes.Fields,
+    initFields: DephiumCoinTypes.Fields,
     asset?: Asset,
     address?: string
   ) {
@@ -204,49 +209,49 @@ class Factory extends ContractFactory<
 }
 
 // Use this object to test and deploy the contract
-export const TokenFaucet = new Factory(
+export const DephiumCoin = new Factory(
   Contract.fromJson(
-    TokenFaucetContractJson,
-    "=20-2+71=111-1+4=10+a0007e02175468652063757272656e742062616c616e63652069732000=46",
-    "06b49f3673daa80e1a2452f6478c177652dd9b9a5730be557aa9dd6dda347152",
+    DephiumCoinContractJson,
+    "=20-2+d2=111-1+b=10+a0007e02175468652063757272656e742062616c616e63652069732000ce047e021754686520616d6f756e7420746f2069737375652069732000=12+7e0111616d6f756e74207472616e736665726564=10+7e0112616d6f756e74207472616e73666572656432=12+7e0112616d6f756e74207472616e73666572656433=24",
+    "48e922b76e6734facf03a962723f653bf618e5021eb92d02526f3518780bf7d3",
     []
   )
 );
-registerContract(TokenFaucet);
+registerContract(DephiumCoin);
 
 // Use this class to interact with the blockchain
-export class TokenFaucetInstance extends ContractInstance {
+export class DephiumCoinInstance extends ContractInstance {
   constructor(address: Address) {
     super(address);
   }
 
-  async fetchState(): Promise<TokenFaucetTypes.State> {
-    return fetchContractState(TokenFaucet, this);
+  async fetchState(): Promise<DephiumCoinTypes.State> {
+    return fetchContractState(DephiumCoin, this);
   }
 
   async getContractEventsCurrentCount(): Promise<number> {
     return getContractEventsCurrentCount(this.address);
   }
 
-  subscribeWithdrawEvent(
-    options: EventSubscribeOptions<TokenFaucetTypes.WithdrawEvent>,
+  subscribeIssueEvent(
+    options: EventSubscribeOptions<DephiumCoinTypes.IssueEvent>,
     fromCount?: number
   ): EventSubscription {
     return subscribeContractEvent(
-      TokenFaucet.contract,
+      DephiumCoin.contract,
       this,
       options,
-      "Withdraw",
+      "Issue",
       fromCount
     );
   }
 
   view = {
     getSymbol: async (
-      params?: TokenFaucetTypes.CallMethodParams<"getSymbol">
-    ): Promise<TokenFaucetTypes.CallMethodResult<"getSymbol">> => {
+      params?: DephiumCoinTypes.CallMethodParams<"getSymbol">
+    ): Promise<DephiumCoinTypes.CallMethodResult<"getSymbol">> => {
       return callMethod(
-        TokenFaucet,
+        DephiumCoin,
         this,
         "getSymbol",
         params === undefined ? {} : params,
@@ -254,10 +259,10 @@ export class TokenFaucetInstance extends ContractInstance {
       );
     },
     getName: async (
-      params?: TokenFaucetTypes.CallMethodParams<"getName">
-    ): Promise<TokenFaucetTypes.CallMethodResult<"getName">> => {
+      params?: DephiumCoinTypes.CallMethodParams<"getName">
+    ): Promise<DephiumCoinTypes.CallMethodResult<"getName">> => {
       return callMethod(
-        TokenFaucet,
+        DephiumCoin,
         this,
         "getName",
         params === undefined ? {} : params,
@@ -265,10 +270,10 @@ export class TokenFaucetInstance extends ContractInstance {
       );
     },
     getDecimals: async (
-      params?: TokenFaucetTypes.CallMethodParams<"getDecimals">
-    ): Promise<TokenFaucetTypes.CallMethodResult<"getDecimals">> => {
+      params?: DephiumCoinTypes.CallMethodParams<"getDecimals">
+    ): Promise<DephiumCoinTypes.CallMethodResult<"getDecimals">> => {
       return callMethod(
-        TokenFaucet,
+        DephiumCoin,
         this,
         "getDecimals",
         params === undefined ? {} : params,
@@ -276,10 +281,10 @@ export class TokenFaucetInstance extends ContractInstance {
       );
     },
     getTotalSupply: async (
-      params?: TokenFaucetTypes.CallMethodParams<"getTotalSupply">
-    ): Promise<TokenFaucetTypes.CallMethodResult<"getTotalSupply">> => {
+      params?: DephiumCoinTypes.CallMethodParams<"getTotalSupply">
+    ): Promise<DephiumCoinTypes.CallMethodResult<"getTotalSupply">> => {
       return callMethod(
-        TokenFaucet,
+        DephiumCoin,
         this,
         "getTotalSupply",
         params === undefined ? {} : params,
@@ -287,23 +292,23 @@ export class TokenFaucetInstance extends ContractInstance {
       );
     },
     balance: async (
-      params?: TokenFaucetTypes.CallMethodParams<"balance">
-    ): Promise<TokenFaucetTypes.CallMethodResult<"balance">> => {
+      params?: DephiumCoinTypes.CallMethodParams<"balance">
+    ): Promise<DephiumCoinTypes.CallMethodResult<"balance">> => {
       return callMethod(
-        TokenFaucet,
+        DephiumCoin,
         this,
         "balance",
         params === undefined ? {} : params,
         getContractByCodeHash
       );
     },
-    withdraw: async (
-      params: TokenFaucetTypes.CallMethodParams<"withdraw">
-    ): Promise<TokenFaucetTypes.CallMethodResult<"withdraw">> => {
+    issueDephiumCoin: async (
+      params: DephiumCoinTypes.CallMethodParams<"issueDephiumCoin">
+    ): Promise<DephiumCoinTypes.CallMethodResult<"issueDephiumCoin">> => {
       return callMethod(
-        TokenFaucet,
+        DephiumCoin,
         this,
-        "withdraw",
+        "issueDephiumCoin",
         params,
         getContractByCodeHash
       );
@@ -312,50 +317,52 @@ export class TokenFaucetInstance extends ContractInstance {
 
   transact = {
     getSymbol: async (
-      params: TokenFaucetTypes.SignExecuteMethodParams<"getSymbol">
-    ): Promise<TokenFaucetTypes.SignExecuteMethodResult<"getSymbol">> => {
-      return signExecuteMethod(TokenFaucet, this, "getSymbol", params);
+      params: DephiumCoinTypes.SignExecuteMethodParams<"getSymbol">
+    ): Promise<DephiumCoinTypes.SignExecuteMethodResult<"getSymbol">> => {
+      return signExecuteMethod(DephiumCoin, this, "getSymbol", params);
     },
     getName: async (
-      params: TokenFaucetTypes.SignExecuteMethodParams<"getName">
-    ): Promise<TokenFaucetTypes.SignExecuteMethodResult<"getName">> => {
-      return signExecuteMethod(TokenFaucet, this, "getName", params);
+      params: DephiumCoinTypes.SignExecuteMethodParams<"getName">
+    ): Promise<DephiumCoinTypes.SignExecuteMethodResult<"getName">> => {
+      return signExecuteMethod(DephiumCoin, this, "getName", params);
     },
     getDecimals: async (
-      params: TokenFaucetTypes.SignExecuteMethodParams<"getDecimals">
-    ): Promise<TokenFaucetTypes.SignExecuteMethodResult<"getDecimals">> => {
-      return signExecuteMethod(TokenFaucet, this, "getDecimals", params);
+      params: DephiumCoinTypes.SignExecuteMethodParams<"getDecimals">
+    ): Promise<DephiumCoinTypes.SignExecuteMethodResult<"getDecimals">> => {
+      return signExecuteMethod(DephiumCoin, this, "getDecimals", params);
     },
     getTotalSupply: async (
-      params: TokenFaucetTypes.SignExecuteMethodParams<"getTotalSupply">
-    ): Promise<TokenFaucetTypes.SignExecuteMethodResult<"getTotalSupply">> => {
-      return signExecuteMethod(TokenFaucet, this, "getTotalSupply", params);
+      params: DephiumCoinTypes.SignExecuteMethodParams<"getTotalSupply">
+    ): Promise<DephiumCoinTypes.SignExecuteMethodResult<"getTotalSupply">> => {
+      return signExecuteMethod(DephiumCoin, this, "getTotalSupply", params);
     },
     balance: async (
-      params: TokenFaucetTypes.SignExecuteMethodParams<"balance">
-    ): Promise<TokenFaucetTypes.SignExecuteMethodResult<"balance">> => {
-      return signExecuteMethod(TokenFaucet, this, "balance", params);
+      params: DephiumCoinTypes.SignExecuteMethodParams<"balance">
+    ): Promise<DephiumCoinTypes.SignExecuteMethodResult<"balance">> => {
+      return signExecuteMethod(DephiumCoin, this, "balance", params);
     },
-    withdraw: async (
-      params: TokenFaucetTypes.SignExecuteMethodParams<"withdraw">
-    ): Promise<TokenFaucetTypes.SignExecuteMethodResult<"withdraw">> => {
-      return signExecuteMethod(TokenFaucet, this, "withdraw", params);
+    issueDephiumCoin: async (
+      params: DephiumCoinTypes.SignExecuteMethodParams<"issueDephiumCoin">
+    ): Promise<
+      DephiumCoinTypes.SignExecuteMethodResult<"issueDephiumCoin">
+    > => {
+      return signExecuteMethod(DephiumCoin, this, "issueDephiumCoin", params);
     },
   };
 
-  async multicall<Calls extends TokenFaucetTypes.MultiCallParams>(
+  async multicall<Calls extends DephiumCoinTypes.MultiCallParams>(
     calls: Calls
-  ): Promise<TokenFaucetTypes.MultiCallResults<Calls>>;
-  async multicall<Callss extends TokenFaucetTypes.MultiCallParams[]>(
+  ): Promise<DephiumCoinTypes.MultiCallResults<Calls>>;
+  async multicall<Callss extends DephiumCoinTypes.MultiCallParams[]>(
     callss: Narrow<Callss>
-  ): Promise<TokenFaucetTypes.MulticallReturnType<Callss>>;
+  ): Promise<DephiumCoinTypes.MulticallReturnType<Callss>>;
   async multicall<
     Callss extends
-      | TokenFaucetTypes.MultiCallParams
-      | TokenFaucetTypes.MultiCallParams[]
+      | DephiumCoinTypes.MultiCallParams
+      | DephiumCoinTypes.MultiCallParams[]
   >(callss: Callss): Promise<unknown> {
     return await multicallMethods(
-      TokenFaucet,
+      DephiumCoin,
       this,
       callss,
       getContractByCodeHash

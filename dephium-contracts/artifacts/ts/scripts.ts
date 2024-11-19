@@ -12,9 +12,9 @@ import {
   HexString,
 } from "@alephium/web3";
 import { getContractByCodeHash } from "./contracts";
-import { default as WithdrawScriptJson } from "../Withdraw.ral.json";
+import { default as IssueDephiumCoinScriptJson } from "../IssueDephiumCoin.ral.json";
 
-export const Withdraw = new ExecutableScript<{
+export const IssueDephiumCoin = new ExecutableScript<{
   token: HexString;
   amount: bigint;
-}>(Script.fromJson(WithdrawScriptJson, "", []), getContractByCodeHash);
+}>(Script.fromJson(IssueDephiumCoinScriptJson, "", []), getContractByCodeHash);

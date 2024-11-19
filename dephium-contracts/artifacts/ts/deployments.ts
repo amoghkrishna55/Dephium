@@ -7,22 +7,22 @@ import {
   DeployContractExecutionResult,
   NetworkId,
 } from "@alephium/web3";
-import { TokenFaucet, TokenFaucetInstance } from ".";
+import { DephiumCoin, DephiumCoinInstance } from ".";
 import { default as devnetDeployments } from "../../deployments/.deployments.devnet.json";
 
 export type Deployments = {
   deployerAddress: string;
   contracts: {
-    TokenFaucet: DeployContractExecutionResult<TokenFaucetInstance>;
+    DephiumCoin: DeployContractExecutionResult<DephiumCoinInstance>;
   };
 };
 
 function toDeployments(json: any): Deployments {
   const contracts = {
-    TokenFaucet: {
-      ...json.contracts["TokenFaucet"],
-      contractInstance: TokenFaucet.at(
-        json.contracts["TokenFaucet"].contractInstance.address
+    DephiumCoin: {
+      ...json.contracts["DephiumCoin"],
+      contractInstance: DephiumCoin.at(
+        json.contracts["DephiumCoin"].contractInstance.address
       ),
     },
   };

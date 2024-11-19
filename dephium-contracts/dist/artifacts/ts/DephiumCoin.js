@@ -2,13 +2,12 @@
 /* tslint:disable */
 /* eslint-disable */
 import { Contract, ContractFactory, subscribeContractEvent, testMethod, callMethod, multicallMethods, fetchContractState, ContractInstance, getContractEventsCurrentCount, signExecuteMethod, addStdIdToFields, encodeContractFields, } from "@alephium/web3";
-import { default as TokenFaucetContractJson } from "../TokenFaucet.ral.json";
+import { default as DephiumCoinContractJson } from "../DephiumCoin.ral.json";
 import { getContractByCodeHash, registerContract } from "./contracts";
 class Factory extends ContractFactory {
     constructor() {
         super(...arguments);
-        this.eventIndex = { Withdraw: 0 };
-        this.consts = { ErrorCodes: { InvalidWithdrawAmount: BigInt("0") } };
+        this.eventIndex = { Issue: 0 };
         this.tests = {
             getSymbol: async (params) => {
                 return testMethod(this, "getSymbol", params, getContractByCodeHash);
@@ -25,8 +24,8 @@ class Factory extends ContractFactory {
             balance: async (params) => {
                 return testMethod(this, "balance", params, getContractByCodeHash);
             },
-            withdraw: async (params) => {
-                return testMethod(this, "withdraw", params, getContractByCodeHash);
+            issueDephiumCoin: async (params) => {
+                return testMethod(this, "issueDephiumCoin", params, getContractByCodeHash);
             },
         };
     }
@@ -34,70 +33,70 @@ class Factory extends ContractFactory {
         return encodeContractFields(addStdIdToFields(this.contract, fields), this.contract.fieldsSig, []);
     }
     at(address) {
-        return new TokenFaucetInstance(address);
+        return new DephiumCoinInstance(address);
     }
     stateForTest(initFields, asset, address) {
         return this.stateForTest_(initFields, asset, address, undefined);
     }
 }
 // Use this object to test and deploy the contract
-export const TokenFaucet = new Factory(Contract.fromJson(TokenFaucetContractJson, "=20-2+71=111-1+4=10+a0007e02175468652063757272656e742062616c616e63652069732000=46", "06b49f3673daa80e1a2452f6478c177652dd9b9a5730be557aa9dd6dda347152", []));
-registerContract(TokenFaucet);
+export const DephiumCoin = new Factory(Contract.fromJson(DephiumCoinContractJson, "=20-2+d2=111-1+b=10+a0007e02175468652063757272656e742062616c616e63652069732000ce047e021754686520616d6f756e7420746f2069737375652069732000=12+7e0111616d6f756e74207472616e736665726564=10+7e0112616d6f756e74207472616e73666572656432=12+7e0112616d6f756e74207472616e73666572656433=24", "48e922b76e6734facf03a962723f653bf618e5021eb92d02526f3518780bf7d3", []));
+registerContract(DephiumCoin);
 // Use this class to interact with the blockchain
-export class TokenFaucetInstance extends ContractInstance {
+export class DephiumCoinInstance extends ContractInstance {
     constructor(address) {
         super(address);
         this.view = {
             getSymbol: async (params) => {
-                return callMethod(TokenFaucet, this, "getSymbol", params === undefined ? {} : params, getContractByCodeHash);
+                return callMethod(DephiumCoin, this, "getSymbol", params === undefined ? {} : params, getContractByCodeHash);
             },
             getName: async (params) => {
-                return callMethod(TokenFaucet, this, "getName", params === undefined ? {} : params, getContractByCodeHash);
+                return callMethod(DephiumCoin, this, "getName", params === undefined ? {} : params, getContractByCodeHash);
             },
             getDecimals: async (params) => {
-                return callMethod(TokenFaucet, this, "getDecimals", params === undefined ? {} : params, getContractByCodeHash);
+                return callMethod(DephiumCoin, this, "getDecimals", params === undefined ? {} : params, getContractByCodeHash);
             },
             getTotalSupply: async (params) => {
-                return callMethod(TokenFaucet, this, "getTotalSupply", params === undefined ? {} : params, getContractByCodeHash);
+                return callMethod(DephiumCoin, this, "getTotalSupply", params === undefined ? {} : params, getContractByCodeHash);
             },
             balance: async (params) => {
-                return callMethod(TokenFaucet, this, "balance", params === undefined ? {} : params, getContractByCodeHash);
+                return callMethod(DephiumCoin, this, "balance", params === undefined ? {} : params, getContractByCodeHash);
             },
-            withdraw: async (params) => {
-                return callMethod(TokenFaucet, this, "withdraw", params, getContractByCodeHash);
+            issueDephiumCoin: async (params) => {
+                return callMethod(DephiumCoin, this, "issueDephiumCoin", params, getContractByCodeHash);
             },
         };
         this.transact = {
             getSymbol: async (params) => {
-                return signExecuteMethod(TokenFaucet, this, "getSymbol", params);
+                return signExecuteMethod(DephiumCoin, this, "getSymbol", params);
             },
             getName: async (params) => {
-                return signExecuteMethod(TokenFaucet, this, "getName", params);
+                return signExecuteMethod(DephiumCoin, this, "getName", params);
             },
             getDecimals: async (params) => {
-                return signExecuteMethod(TokenFaucet, this, "getDecimals", params);
+                return signExecuteMethod(DephiumCoin, this, "getDecimals", params);
             },
             getTotalSupply: async (params) => {
-                return signExecuteMethod(TokenFaucet, this, "getTotalSupply", params);
+                return signExecuteMethod(DephiumCoin, this, "getTotalSupply", params);
             },
             balance: async (params) => {
-                return signExecuteMethod(TokenFaucet, this, "balance", params);
+                return signExecuteMethod(DephiumCoin, this, "balance", params);
             },
-            withdraw: async (params) => {
-                return signExecuteMethod(TokenFaucet, this, "withdraw", params);
+            issueDephiumCoin: async (params) => {
+                return signExecuteMethod(DephiumCoin, this, "issueDephiumCoin", params);
             },
         };
     }
     async fetchState() {
-        return fetchContractState(TokenFaucet, this);
+        return fetchContractState(DephiumCoin, this);
     }
     async getContractEventsCurrentCount() {
         return getContractEventsCurrentCount(this.address);
     }
-    subscribeWithdrawEvent(options, fromCount) {
-        return subscribeContractEvent(TokenFaucet.contract, this, options, "Withdraw", fromCount);
+    subscribeIssueEvent(options, fromCount) {
+        return subscribeContractEvent(DephiumCoin.contract, this, options, "Issue", fromCount);
     }
     async multicall(callss) {
-        return await multicallMethods(TokenFaucet, this, callss, getContractByCodeHash);
+        return await multicallMethods(DephiumCoin, this, callss, getContractByCodeHash);
     }
 }

@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import Loading from "../components/loading";
 import { AlephiumConnectButton, useWallet } from "@alephium/web3-react";
-import { withdrawToken } from "../services/token.service";
+import { IssueDephiumToken } from "../services/token.service";
 import { tokenFaucetConfig } from "../services/utils";
 
 const Main = () => {
@@ -13,9 +13,9 @@ const Main = () => {
 
   const withdrawTokens = async () => {
     if (signer) {
-      const result = await withdrawToken(
+      const result = await IssueDephiumToken(
         signer,
-        "1",
+        "10",
         tokenFaucetConfig.faucetTokenId
       );
       console.log(result);
@@ -50,6 +50,7 @@ const Main = () => {
         <section className="text-center mb-16">
           <h2 className="text-4xl font-bold mb-4">
             Stake and Earn on Alephium Blockchain
+            {tokenFaucetConfig.faucetTokenId}
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
             Join the future of decentralized betting. Stake your ALPH tokens,

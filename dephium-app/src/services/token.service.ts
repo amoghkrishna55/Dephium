@@ -3,14 +3,14 @@ import {
   ExecuteScriptResult,
   SignerProvider,
 } from "@alephium/web3";
-import { Withdraw } from "dephium-contracts";
+import { IssueDephiumCoin } from "dephium-contracts";
 
-export const withdrawToken = async (
+export const IssueDephiumToken = async (
   signerProvider: SignerProvider,
   amount: string,
   tokenId: string
 ): Promise<ExecuteScriptResult> => {
-  return await Withdraw.execute(signerProvider, {
+  return await IssueDephiumCoin.execute(signerProvider, {
     initialFields: {
       token: tokenId,
       amount: BigInt(amount),
