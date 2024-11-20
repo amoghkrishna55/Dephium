@@ -33,7 +33,7 @@ interface Character {
 
 const UploadMeme = () => {
   const [score, setScore] = useState<string>("");
-  const [amount, setAmount] = useState<string>("");
+  // const [amount, setAmount] = useState<string>("");
   const [previewUrl, setPreviewUrl] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
   const [showUnderwater, setShowUnderwater] = useState(false);
@@ -66,7 +66,7 @@ const UploadMeme = () => {
     },
   ]);
 
-  const { signer } = useWallet();
+  const { signer, connectionStatus } = useWallet();
 
   const withdrawTokens = async () => {
     if (signer) {
@@ -132,12 +132,12 @@ const UploadMeme = () => {
     }
   };
 
-  const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    if (value === "" || parseInt(value) >= 0) {
-      setAmount(value.replace(/\D/g, ""));
-    }
-  };
+  // const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const value = e.target.value;
+  //   if (value === "" || parseInt(value) >= 0) {
+  //     setAmount(value.replace(/\D/g, ""));
+  //   }
+  // };
 
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
@@ -212,7 +212,7 @@ const UploadMeme = () => {
                     placeholder="Rate Your Cat Meme"
                   />
                 </div>
-                <div className="mt-8 space-y-4">
+                {/* <div className="mt-8 space-y-4">
                   <label className="block text-lg font-medium">
                     Amount Wagered (ALPH):
                   </label>
@@ -223,9 +223,14 @@ const UploadMeme = () => {
                     className="text-2xl text-center font-bold [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                     placeholder="Amount Wagered"
                   />
-                </div>
+                </div> */}
                 <Button
-                  disabled={!previewUrl || !score || isLoading || !amount}
+                  disabled={
+                    !previewUrl ||
+                    !score ||
+                    isLoading ||
+                    connectionStatus !== "connected"
+                  }
                   className="w-full mt-8 bg-primary text-primary-foreground hover:opacity-90"
                   onClick={getReviews}
                 >
