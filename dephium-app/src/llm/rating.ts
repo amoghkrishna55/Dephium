@@ -57,7 +57,7 @@ export const reviewSchema = z.object({
 export type ReviewSchema = z.infer<typeof reviewSchema>;
 
 const model = new ChatGoogleGenerativeAI({
-  model: "gemini-1.5-flash",
+  model: "gemini-1.5-pro",
   maxOutputTokens: 2048,
   apiKey: import.meta.env.VITE_GOOGLE_API_KEY,
 });
