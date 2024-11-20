@@ -15,8 +15,11 @@ function getNetwork(): NetworkId {
 
 function getTokenFaucetConfig(): TokenFaucetConfig {
   const network = getNetwork();
-  const tokenFaucet =
-    loadDeployments(network).contracts.DephiumCoin.contractInstance;
+  const deployments = loadDeployments(network);
+  if (!deployments.contracts.DephiumCoin) {
+    throw new Error("DephiumCoin contract is not defined");
+  }
+  const tokenFaucet = deployments.contracts.DephiumCoin.contractInstance;
   const groupIndex = tokenFaucet.groupIndex;
   const tokenFaucetAddress = tokenFaucet.address;
   const faucetTokenId = tokenFaucet.contractId;
