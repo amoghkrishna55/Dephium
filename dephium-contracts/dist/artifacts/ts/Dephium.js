@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import { Contract, ContractFactory, subscribeContractEvent, testMethod, callMethod, multicallMethods, fetchContractState, ContractInstance, getContractEventsCurrentCount, signExecuteMethod, addStdIdToFields, encodeContractFields, } from "@alephium/web3";
-import { default as DephiumCoinContractJson } from "../DephiumCoin.ral.json";
+import { default as DephiumContractJson } from "../Dephium.ral.json";
 import { getContractByCodeHash, registerContract } from "./contracts";
 class Factory extends ContractFactory {
     constructor() {
@@ -36,76 +36,76 @@ class Factory extends ContractFactory {
         return encodeContractFields(addStdIdToFields(this.contract, fields), this.contract.fieldsSig, []);
     }
     at(address) {
-        return new DephiumCoinInstance(address);
+        return new DephiumInstance(address);
     }
     stateForTest(initFields, asset, address) {
         return this.stateForTest_(initFields, asset, address, undefined);
     }
 }
 // Use this object to test and deploy the contract
-export const DephiumCoin = new Factory(Contract.fromJson(DephiumCoinContractJson, "=20-2+9c=2-1=1+9=110-2+12=10+a0007e02175468652063757272656e742062616c616e63652069732000ce047e021754686520616d6f756e7420746f20697373756520697320007e0111616d6f756e74207472616e736665726564=92", "e1ab97d7acfdf75352daec3b78516bfc7f49c25871e5602af82929d6cbf78838", []));
-registerContract(DephiumCoin);
+export const Dephium = new Factory(Contract.fromJson(DephiumContractJson, "=20-2+9c=2-1=1+9=110-2+12=10+a0007e02175468652063757272656e742062616c616e63652069732000ce047e021754686520616d6f756e7420746f20697373756520697320007e0111616d6f756e74207472616e736665726564=92", "e1ab97d7acfdf75352daec3b78516bfc7f49c25871e5602af82929d6cbf78838", []));
+registerContract(Dephium);
 // Use this class to interact with the blockchain
-export class DephiumCoinInstance extends ContractInstance {
+export class DephiumInstance extends ContractInstance {
     constructor(address) {
         super(address);
         this.view = {
             getSymbol: async (params) => {
-                return callMethod(DephiumCoin, this, "getSymbol", params === undefined ? {} : params, getContractByCodeHash);
+                return callMethod(Dephium, this, "getSymbol", params === undefined ? {} : params, getContractByCodeHash);
             },
             getName: async (params) => {
-                return callMethod(DephiumCoin, this, "getName", params === undefined ? {} : params, getContractByCodeHash);
+                return callMethod(Dephium, this, "getName", params === undefined ? {} : params, getContractByCodeHash);
             },
             getDecimals: async (params) => {
-                return callMethod(DephiumCoin, this, "getDecimals", params === undefined ? {} : params, getContractByCodeHash);
+                return callMethod(Dephium, this, "getDecimals", params === undefined ? {} : params, getContractByCodeHash);
             },
             getTotalSupply: async (params) => {
-                return callMethod(DephiumCoin, this, "getTotalSupply", params === undefined ? {} : params, getContractByCodeHash);
+                return callMethod(Dephium, this, "getTotalSupply", params === undefined ? {} : params, getContractByCodeHash);
             },
             balance: async (params) => {
-                return callMethod(DephiumCoin, this, "balance", params === undefined ? {} : params, getContractByCodeHash);
+                return callMethod(Dephium, this, "balance", params === undefined ? {} : params, getContractByCodeHash);
             },
             issueDephiumCoin: async (params) => {
-                return callMethod(DephiumCoin, this, "issueDephiumCoin", params, getContractByCodeHash);
+                return callMethod(Dephium, this, "issueDephiumCoin", params, getContractByCodeHash);
             },
             transfer: async (params) => {
-                return callMethod(DephiumCoin, this, "transfer", params, getContractByCodeHash);
+                return callMethod(Dephium, this, "transfer", params, getContractByCodeHash);
             },
         };
         this.transact = {
             getSymbol: async (params) => {
-                return signExecuteMethod(DephiumCoin, this, "getSymbol", params);
+                return signExecuteMethod(Dephium, this, "getSymbol", params);
             },
             getName: async (params) => {
-                return signExecuteMethod(DephiumCoin, this, "getName", params);
+                return signExecuteMethod(Dephium, this, "getName", params);
             },
             getDecimals: async (params) => {
-                return signExecuteMethod(DephiumCoin, this, "getDecimals", params);
+                return signExecuteMethod(Dephium, this, "getDecimals", params);
             },
             getTotalSupply: async (params) => {
-                return signExecuteMethod(DephiumCoin, this, "getTotalSupply", params);
+                return signExecuteMethod(Dephium, this, "getTotalSupply", params);
             },
             balance: async (params) => {
-                return signExecuteMethod(DephiumCoin, this, "balance", params);
+                return signExecuteMethod(Dephium, this, "balance", params);
             },
             issueDephiumCoin: async (params) => {
-                return signExecuteMethod(DephiumCoin, this, "issueDephiumCoin", params);
+                return signExecuteMethod(Dephium, this, "issueDephiumCoin", params);
             },
             transfer: async (params) => {
-                return signExecuteMethod(DephiumCoin, this, "transfer", params);
+                return signExecuteMethod(Dephium, this, "transfer", params);
             },
         };
     }
     async fetchState() {
-        return fetchContractState(DephiumCoin, this);
+        return fetchContractState(Dephium, this);
     }
     async getContractEventsCurrentCount() {
         return getContractEventsCurrentCount(this.address);
     }
     subscribeIssueEvent(options, fromCount) {
-        return subscribeContractEvent(DephiumCoin.contract, this, options, "Issue", fromCount);
+        return subscribeContractEvent(Dephium.contract, this, options, "Issue", fromCount);
     }
     async multicall(callss) {
-        return await multicallMethods(DephiumCoin, this, callss, getContractByCodeHash);
+        return await multicallMethods(Dephium, this, callss, getContractByCodeHash);
     }
 }

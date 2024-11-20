@@ -1,6 +1,6 @@
 import { Deployer, DeployFunction, Network } from "@alephium/cli";
 import { Settings } from "../alephium.config";
-import { DephiumCoin } from "../artifacts/ts";
+import { Dephium } from "../artifacts/ts";
 import { stringToHex } from "@alephium/web3";
 
 const deployToken: DeployFunction<Settings> = async (
@@ -9,7 +9,7 @@ const deployToken: DeployFunction<Settings> = async (
 ): Promise<void> => {
   const issueTokenAmount = network.settings.issueTokenAmount;
   const ownerAddress = network.settings.ownerAddress;
-  const result = await deployer.deployContract(DephiumCoin, {
+  const result = await deployer.deployContract(Dephium, {
     issueTokenAmount: issueTokenAmount,
     initialFields: {
       symbol: stringToHex("DPC"),

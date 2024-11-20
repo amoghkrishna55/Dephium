@@ -7,28 +7,23 @@ import {
   DeployContractExecutionResult,
   NetworkId,
 } from "@alephium/web3";
-import { DephiumCoin, DephiumCoinInstance } from ".";
+import { Dephium, DephiumInstance } from ".";
 import { default as testnetDeployments } from "../../deployments/.deployments.testnet.json";
 import { default as devnetDeployments } from "../../deployments/.deployments.devnet.json";
 
 export type Deployments = {
   deployerAddress: string;
-  contracts: {
-    DephiumCoin?: DeployContractExecutionResult<DephiumCoinInstance>;
-  };
+  contracts: { Dephium: DeployContractExecutionResult<DephiumInstance> };
 };
 
 function toDeployments(json: any): Deployments {
   const contracts = {
-    DephiumCoin:
-      json.contracts["DephiumCoin"] === undefined
-        ? undefined
-        : {
-            ...json.contracts["DephiumCoin"],
-            contractInstance: DephiumCoin.at(
-              json.contracts["DephiumCoin"].contractInstance.address
-            ),
-          },
+    Dephium: {
+      ...json.contracts["Dephium"],
+      contractInstance: Dephium.at(
+        json.contracts["Dephium"].contractInstance.address
+      ),
+    },
   };
   return {
     ...json,

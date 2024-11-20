@@ -13,15 +13,8 @@ import {
 } from "@alephium/web3";
 import { getContractByCodeHash } from "./contracts";
 import { default as IssueDephiumCoinScriptJson } from "../IssueDephiumCoin.ral.json";
-import { default as TransferDefScriptJson } from "../TransferDef.ral.json";
 
 export const IssueDephiumCoin = new ExecutableScript<{
   token: HexString;
   amount: bigint;
 }>(Script.fromJson(IssueDephiumCoinScriptJson, "", []), getContractByCodeHash);
-
-export const TransferDef = new ExecutableScript<{
-  token: HexString;
-  amount: bigint;
-  win: boolean;
-}>(Script.fromJson(TransferDefScriptJson, "", []), getContractByCodeHash);

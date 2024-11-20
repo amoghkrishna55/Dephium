@@ -1,5 +1,5 @@
 import { Address, ContractState, HexString, ContractFactory, EventSubscribeOptions, EventSubscription, CallContractParams, CallContractResult, ContractEvent, Asset, ContractInstance, TestContractParamsWithoutMaps, TestContractResultWithoutMaps, SignExecuteContractMethodParams, SignExecuteScriptTxResult, Narrow } from "@alephium/web3";
-export declare namespace DephiumCoinTypes {
+export declare namespace DephiumTypes {
     type Fields = {
         symbol: HexString;
         name: HexString;
@@ -97,56 +97,56 @@ export declare namespace DephiumCoinTypes {
     type SignExecuteMethodParams<T extends keyof SignExecuteMethodTable> = SignExecuteMethodTable[T]["params"];
     type SignExecuteMethodResult<T extends keyof SignExecuteMethodTable> = SignExecuteMethodTable[T]["result"];
 }
-declare class Factory extends ContractFactory<DephiumCoinInstance, DephiumCoinTypes.Fields> {
-    encodeFields(fields: DephiumCoinTypes.Fields): {
+declare class Factory extends ContractFactory<DephiumInstance, DephiumTypes.Fields> {
+    encodeFields(fields: DephiumTypes.Fields): {
         encodedImmFields: Uint8Array;
         encodedMutFields: Uint8Array;
     };
     eventIndex: {
         Issue: number;
     };
-    at(address: string): DephiumCoinInstance;
+    at(address: string): DephiumInstance;
     tests: {
-        getSymbol: (params: Omit<TestContractParamsWithoutMaps<DephiumCoinTypes.Fields, never>, "testArgs">) => Promise<TestContractResultWithoutMaps<HexString>>;
-        getName: (params: Omit<TestContractParamsWithoutMaps<DephiumCoinTypes.Fields, never>, "testArgs">) => Promise<TestContractResultWithoutMaps<HexString>>;
-        getDecimals: (params: Omit<TestContractParamsWithoutMaps<DephiumCoinTypes.Fields, never>, "testArgs">) => Promise<TestContractResultWithoutMaps<bigint>>;
-        getTotalSupply: (params: Omit<TestContractParamsWithoutMaps<DephiumCoinTypes.Fields, never>, "testArgs">) => Promise<TestContractResultWithoutMaps<bigint>>;
-        balance: (params: Omit<TestContractParamsWithoutMaps<DephiumCoinTypes.Fields, never>, "testArgs">) => Promise<TestContractResultWithoutMaps<bigint>>;
-        issueDephiumCoin: (params: TestContractParamsWithoutMaps<DephiumCoinTypes.Fields, {
+        getSymbol: (params: Omit<TestContractParamsWithoutMaps<DephiumTypes.Fields, never>, "testArgs">) => Promise<TestContractResultWithoutMaps<HexString>>;
+        getName: (params: Omit<TestContractParamsWithoutMaps<DephiumTypes.Fields, never>, "testArgs">) => Promise<TestContractResultWithoutMaps<HexString>>;
+        getDecimals: (params: Omit<TestContractParamsWithoutMaps<DephiumTypes.Fields, never>, "testArgs">) => Promise<TestContractResultWithoutMaps<bigint>>;
+        getTotalSupply: (params: Omit<TestContractParamsWithoutMaps<DephiumTypes.Fields, never>, "testArgs">) => Promise<TestContractResultWithoutMaps<bigint>>;
+        balance: (params: Omit<TestContractParamsWithoutMaps<DephiumTypes.Fields, never>, "testArgs">) => Promise<TestContractResultWithoutMaps<bigint>>;
+        issueDephiumCoin: (params: TestContractParamsWithoutMaps<DephiumTypes.Fields, {
             amount: bigint;
         }>) => Promise<TestContractResultWithoutMaps<null>>;
-        transfer: (params: TestContractParamsWithoutMaps<DephiumCoinTypes.Fields, {
+        transfer: (params: TestContractParamsWithoutMaps<DephiumTypes.Fields, {
             amount: bigint;
             win: boolean;
         }>) => Promise<TestContractResultWithoutMaps<null>>;
     };
-    stateForTest(initFields: DephiumCoinTypes.Fields, asset?: Asset, address?: string): ContractState<DephiumCoinTypes.Fields> | import("@alephium/web3").ContractStateWithMaps<DephiumCoinTypes.Fields, Record<string, Map<import("@alephium/web3").Val, import("@alephium/web3").Val>>>;
+    stateForTest(initFields: DephiumTypes.Fields, asset?: Asset, address?: string): ContractState<DephiumTypes.Fields> | import("@alephium/web3").ContractStateWithMaps<DephiumTypes.Fields, Record<string, Map<import("@alephium/web3").Val, import("@alephium/web3").Val>>>;
 }
-export declare const DephiumCoin: Factory;
-export declare class DephiumCoinInstance extends ContractInstance {
+export declare const Dephium: Factory;
+export declare class DephiumInstance extends ContractInstance {
     constructor(address: Address);
-    fetchState(): Promise<DephiumCoinTypes.State>;
+    fetchState(): Promise<DephiumTypes.State>;
     getContractEventsCurrentCount(): Promise<number>;
-    subscribeIssueEvent(options: EventSubscribeOptions<DephiumCoinTypes.IssueEvent>, fromCount?: number): EventSubscription;
+    subscribeIssueEvent(options: EventSubscribeOptions<DephiumTypes.IssueEvent>, fromCount?: number): EventSubscription;
     view: {
-        getSymbol: (params?: DephiumCoinTypes.CallMethodParams<"getSymbol">) => Promise<DephiumCoinTypes.CallMethodResult<"getSymbol">>;
-        getName: (params?: DephiumCoinTypes.CallMethodParams<"getName">) => Promise<DephiumCoinTypes.CallMethodResult<"getName">>;
-        getDecimals: (params?: DephiumCoinTypes.CallMethodParams<"getDecimals">) => Promise<DephiumCoinTypes.CallMethodResult<"getDecimals">>;
-        getTotalSupply: (params?: DephiumCoinTypes.CallMethodParams<"getTotalSupply">) => Promise<DephiumCoinTypes.CallMethodResult<"getTotalSupply">>;
-        balance: (params?: DephiumCoinTypes.CallMethodParams<"balance">) => Promise<DephiumCoinTypes.CallMethodResult<"balance">>;
-        issueDephiumCoin: (params: DephiumCoinTypes.CallMethodParams<"issueDephiumCoin">) => Promise<DephiumCoinTypes.CallMethodResult<"issueDephiumCoin">>;
-        transfer: (params: DephiumCoinTypes.CallMethodParams<"transfer">) => Promise<DephiumCoinTypes.CallMethodResult<"transfer">>;
+        getSymbol: (params?: DephiumTypes.CallMethodParams<"getSymbol">) => Promise<DephiumTypes.CallMethodResult<"getSymbol">>;
+        getName: (params?: DephiumTypes.CallMethodParams<"getName">) => Promise<DephiumTypes.CallMethodResult<"getName">>;
+        getDecimals: (params?: DephiumTypes.CallMethodParams<"getDecimals">) => Promise<DephiumTypes.CallMethodResult<"getDecimals">>;
+        getTotalSupply: (params?: DephiumTypes.CallMethodParams<"getTotalSupply">) => Promise<DephiumTypes.CallMethodResult<"getTotalSupply">>;
+        balance: (params?: DephiumTypes.CallMethodParams<"balance">) => Promise<DephiumTypes.CallMethodResult<"balance">>;
+        issueDephiumCoin: (params: DephiumTypes.CallMethodParams<"issueDephiumCoin">) => Promise<DephiumTypes.CallMethodResult<"issueDephiumCoin">>;
+        transfer: (params: DephiumTypes.CallMethodParams<"transfer">) => Promise<DephiumTypes.CallMethodResult<"transfer">>;
     };
     transact: {
-        getSymbol: (params: DephiumCoinTypes.SignExecuteMethodParams<"getSymbol">) => Promise<DephiumCoinTypes.SignExecuteMethodResult<"getSymbol">>;
-        getName: (params: DephiumCoinTypes.SignExecuteMethodParams<"getName">) => Promise<DephiumCoinTypes.SignExecuteMethodResult<"getName">>;
-        getDecimals: (params: DephiumCoinTypes.SignExecuteMethodParams<"getDecimals">) => Promise<DephiumCoinTypes.SignExecuteMethodResult<"getDecimals">>;
-        getTotalSupply: (params: DephiumCoinTypes.SignExecuteMethodParams<"getTotalSupply">) => Promise<DephiumCoinTypes.SignExecuteMethodResult<"getTotalSupply">>;
-        balance: (params: DephiumCoinTypes.SignExecuteMethodParams<"balance">) => Promise<DephiumCoinTypes.SignExecuteMethodResult<"balance">>;
-        issueDephiumCoin: (params: DephiumCoinTypes.SignExecuteMethodParams<"issueDephiumCoin">) => Promise<DephiumCoinTypes.SignExecuteMethodResult<"issueDephiumCoin">>;
-        transfer: (params: DephiumCoinTypes.SignExecuteMethodParams<"transfer">) => Promise<DephiumCoinTypes.SignExecuteMethodResult<"transfer">>;
+        getSymbol: (params: DephiumTypes.SignExecuteMethodParams<"getSymbol">) => Promise<DephiumTypes.SignExecuteMethodResult<"getSymbol">>;
+        getName: (params: DephiumTypes.SignExecuteMethodParams<"getName">) => Promise<DephiumTypes.SignExecuteMethodResult<"getName">>;
+        getDecimals: (params: DephiumTypes.SignExecuteMethodParams<"getDecimals">) => Promise<DephiumTypes.SignExecuteMethodResult<"getDecimals">>;
+        getTotalSupply: (params: DephiumTypes.SignExecuteMethodParams<"getTotalSupply">) => Promise<DephiumTypes.SignExecuteMethodResult<"getTotalSupply">>;
+        balance: (params: DephiumTypes.SignExecuteMethodParams<"balance">) => Promise<DephiumTypes.SignExecuteMethodResult<"balance">>;
+        issueDephiumCoin: (params: DephiumTypes.SignExecuteMethodParams<"issueDephiumCoin">) => Promise<DephiumTypes.SignExecuteMethodResult<"issueDephiumCoin">>;
+        transfer: (params: DephiumTypes.SignExecuteMethodParams<"transfer">) => Promise<DephiumTypes.SignExecuteMethodResult<"transfer">>;
     };
-    multicall<Calls extends DephiumCoinTypes.MultiCallParams>(calls: Calls): Promise<DephiumCoinTypes.MultiCallResults<Calls>>;
-    multicall<Callss extends DephiumCoinTypes.MultiCallParams[]>(callss: Narrow<Callss>): Promise<DephiumCoinTypes.MulticallReturnType<Callss>>;
+    multicall<Calls extends DephiumTypes.MultiCallParams>(calls: Calls): Promise<DephiumTypes.MultiCallResults<Calls>>;
+    multicall<Callss extends DephiumTypes.MultiCallParams[]>(callss: Narrow<Callss>): Promise<DephiumTypes.MulticallReturnType<Callss>>;
 }
 export {};

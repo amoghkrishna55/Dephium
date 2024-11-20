@@ -11,9 +11,9 @@
     "skipAbstractContractCheck": false
   },
   "infos": {
-    "DephiumCoin": {
+    "Dephium": {
       "sourceFile": "token.ral",
-      "sourceCodeHash": "396ef9e3bb5cffe3b3b0a68dda77f456b69576609e9272428b9d1e298a1db2a7",
+      "sourceCodeHash": "3f269b6642bc69b6316577af0ff92b4f75180568318d6210d346d107a6f00a7f",
       "bytecodeDebugPatch": "=20-2+9c=2-1=1+9=110-2+12=10+a0007e02175468652063757272656e742062616c616e63652069732000ce047e021754686520616d6f756e7420746f20697373756520697320007e0111616d6f756e74207472616e736665726564=92",
       "codeHashDebug": "e1ab97d7acfdf75352daec3b78516bfc7f49c25871e5602af82929d6cbf78838"
     },
@@ -25,14 +25,8 @@
     },
     "IssueDephiumCoin": {
       "sourceFile": "withdraw.ral",
-      "sourceCodeHash": "d12739db9cbe4843b48d9cacfe17946a0b3b8cec3c485adc52ecb8045489ce0a",
+      "sourceCodeHash": "e501bee7a1b2edf9391c6d4ed0607598be95e7728b87a04c73f508880d3ade4c",
       "bytecodeDebugPatch": "",
-      "codeHashDebug": ""
-    },
-    "TransferDef": {
-      "sourceFile": "transfer.ral",
-      "sourceCodeHash": "dcbb3e7004a579f371127dabed6c7e77f015241a88db8b77c96eb26886064b16",
-      "bytecodeDebugPatch": "=13-1+f=33+cd7e020000",
       "codeHashDebug": ""
     }
   }

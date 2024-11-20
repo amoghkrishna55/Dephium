@@ -2,5 +2,5 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export * from "./DephiumCoin";
+export * from "./Dephium";
 export * from "./scripts";
