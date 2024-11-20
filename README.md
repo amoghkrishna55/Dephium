@@ -1,3 +1,5 @@
+![dephium read me banner](https://github.com/amoghkrishna55/Dephium/blob/main/rdmebanner.png)
+
 # Dephium 🐱 
 
 > Where AI Meets Meme Magic: Predict, Submit, Earn!
