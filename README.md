@@ -1,5 +1,8 @@
 ![dephium read me banner](https://github.com/amoghkrishna55/Dephium/blob/main/rdmebanner.png)
 
+![GitHub repo size](https://img.shields.io/github/repo-size/D3FaltXD/Weather-Cat)
+![GitHub stars](https://img.shields.io/github/stars/D3FaltXD/Weather-Cat)
+![GitHub forks](https://img.shields.io/github/forks/D3FaltXD/Weather-Cat) 
 # Dephium 🐱 
 
 > Where AI Meets Meme Magic: Predict, Submit, Earn!
