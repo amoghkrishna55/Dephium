@@ -46,12 +46,6 @@ Dephium is a revolutionary AI-driven platform that turns your cat meme expertise
 - Start with well-known meme templates
 - Learn from the community's successful predictions
 
-## Community 🌐
-
-- Join our Discord: [Discord Link]
-- Follow us on Twitter: [@DephiumOfficial]
-- Share your strategies on our subreddit: [r/Dephium]
-
 ## Coming Soon 🔜
 
 - Weekly meme competitions
