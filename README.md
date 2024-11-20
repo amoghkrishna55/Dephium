@@ -53,9 +53,11 @@ Dephium is a revolutionary AI-driven platform that turns your cat meme expertise
 - Community voting features
 - Mobile app
 
-## Support
-
-Having issues with predictions or rewards? Check out our [FAQ] or contact our support team at support@dephium.com.
+## Tech stack
+- Frontend: React 18 + TypeScript + Vite.
+- UI Framework: TailwindCSS + ShadcnUI.
+- AI: LangChain + Google Gemini Pro.
+- Blockchain: Alephium Web3 SDK.
 
 ---
 
