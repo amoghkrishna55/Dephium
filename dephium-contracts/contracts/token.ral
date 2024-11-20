@@ -35,13 +35,19 @@ Contract DephiumCoin(
     pub fn issueDephiumCoin(amount: U256) -> () {
         emit Debug(`The current balance is ${balance}`)
         emit Debug(`The amount to issue is ${ownerAddress}`)
-        transferTokenToSelf!(ownerAddress,ALPH,100)
         emit Debug(`amount transfered`)
         transferTokenFromSelf!(callerAddress!(), selfTokenId!(), amount)
-        emit Debug(`amount transfered2`)
-        transferToken!(callerAddress!(),ownerAddress, ALPH, amount)
-        emit Debug(`amount transfered3`)
         balance = balance - amount
         emit Issue(callerAddress!(), amount)
+    }
+
+    @using(assetsInContract = true, checkExternalCaller = false, preapprovedAssets = true)
+    pub fn transfer(amount : U256, win : Bool) -> () {
+        if(win) {
+            transferTokenFromSelf!(callerAddress!(), selfTokenId!(), amount*2)
+        }
+        else{
+            burnToken!(callerAddress!(), selfTokenId!(), amount)
+        }
     }
 }

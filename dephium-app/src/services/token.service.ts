@@ -3,7 +3,7 @@ import {
   ExecuteScriptResult,
   SignerProvider,
 } from "@alephium/web3";
-import { IssueDephiumCoin } from "dephium-contracts";
+import { IssueDephiumCoin, TransferDef } from "dephium-contracts";
 
 export const IssueDephiumToken = async (
   signerProvider: SignerProvider,
@@ -14,6 +14,22 @@ export const IssueDephiumToken = async (
     initialFields: {
       token: tokenId,
       amount: BigInt(amount),
+    },
+    attoAlphAmount: DUST_AMOUNT,
+  });
+};
+
+export const TransferDephiumToken = async (
+  SignerProvider: SignerProvider,
+  amount: string,
+  tokenId: string,
+  win: boolean
+): Promise<ExecuteScriptResult> => {
+  return await TransferDef.execute(SignerProvider, {
+    initialFields: {
+      token: tokenId,
+      amount: BigInt(amount),
+      win: win,
     },
     attoAlphAmount: DUST_AMOUNT,
   });

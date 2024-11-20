@@ -4,4 +4,6 @@
 import { ExecutableScript, Script, } from "@alephium/web3";
 import { getContractByCodeHash } from "./contracts";
 import { default as IssueDephiumCoinScriptJson } from "../IssueDephiumCoin.ral.json";
+import { default as TransferDefScriptJson } from "../TransferDef.ral.json";
 export const IssueDephiumCoin = new ExecutableScript(Script.fromJson(IssueDephiumCoinScriptJson, "", []), getContractByCodeHash);
+export const TransferDef = new ExecutableScript(Script.fromJson(TransferDefScriptJson, "", []), getContractByCodeHash);

@@ -13,9 +13,9 @@
   "infos": {
     "DephiumCoin": {
       "sourceFile": "token.ral",
-      "sourceCodeHash": "d1789e981c8fefd7d1b798dd0d99dc912aa2e0d01aa77d7a47fde28c874d46fa",
-      "bytecodeDebugPatch": "=20-2+d2=111-1+b=10+a0007e02175468652063757272656e742062616c616e63652069732000ce047e021754686520616d6f756e7420746f2069737375652069732000=12+7e0111616d6f756e74207472616e736665726564=10+7e0112616d6f756e74207472616e73666572656432=12+7e0112616d6f756e74207472616e73666572656433=24",
-      "codeHashDebug": "48e922b76e6734facf03a962723f653bf618e5021eb92d02526f3518780bf7d3"
+      "sourceCodeHash": "396ef9e3bb5cffe3b3b0a68dda77f456b69576609e9272428b9d1e298a1db2a7",
+      "bytecodeDebugPatch": "=20-2+9c=2-1=1+9=110-2+12=10+a0007e02175468652063757272656e742062616c616e63652069732000ce047e021754686520616d6f756e7420746f20697373756520697320007e0111616d6f756e74207472616e736665726564=92",
+      "codeHashDebug": "e1ab97d7acfdf75352daec3b78516bfc7f49c25871e5602af82929d6cbf78838"
     },
     "IFungibleToken": {
       "sourceFile": "../../node_modules/@alephium/web3/std/fungible_token_interface.ral",
@@ -25,8 +25,14 @@
     },
     "IssueDephiumCoin": {
       "sourceFile": "withdraw.ral",
-      "sourceCodeHash": "c1de918a07a0d03f674c0461b5cb4fc55ab9482d982be409fb14adfa79f252d0",
+      "sourceCodeHash": "d12739db9cbe4843b48d9cacfe17946a0b3b8cec3c485adc52ecb8045489ce0a",
       "bytecodeDebugPatch": "",
+      "codeHashDebug": ""
+    },
+    "TransferDef": {
+      "sourceFile": "transfer.ral",
+      "sourceCodeHash": "dcbb3e7004a579f371127dabed6c7e77f015241a88db8b77c96eb26886064b16",
+      "bytecodeDebugPatch": "=13-1+f=33+cd7e020000",
       "codeHashDebug": ""
     }
   }

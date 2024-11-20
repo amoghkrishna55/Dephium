@@ -1,0 +1,4 @@
+TxScript TransferDef(token: DephiumCoin, amount: U256, win : Bool) {
+    token.transfer{callerAddress!() -> ALPH : amount,selfTokenId!() : amount}(amount,win)
+    emit Debug(`${ALPH}`)
+}

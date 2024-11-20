@@ -27,6 +27,9 @@ class Factory extends ContractFactory {
             issueDephiumCoin: async (params) => {
                 return testMethod(this, "issueDephiumCoin", params, getContractByCodeHash);
             },
+            transfer: async (params) => {
+                return testMethod(this, "transfer", params, getContractByCodeHash);
+            },
         };
     }
     encodeFields(fields) {
@@ -40,7 +43,7 @@ class Factory extends ContractFactory {
     }
 }
 // Use this object to test and deploy the contract
-export const DephiumCoin = new Factory(Contract.fromJson(DephiumCoinContractJson, "=20-2+d2=111-1+b=10+a0007e02175468652063757272656e742062616c616e63652069732000ce047e021754686520616d6f756e7420746f2069737375652069732000=12+7e0111616d6f756e74207472616e736665726564=10+7e0112616d6f756e74207472616e73666572656432=12+7e0112616d6f756e74207472616e73666572656433=24", "48e922b76e6734facf03a962723f653bf618e5021eb92d02526f3518780bf7d3", []));
+export const DephiumCoin = new Factory(Contract.fromJson(DephiumCoinContractJson, "=20-2+9c=2-1=1+9=110-2+12=10+a0007e02175468652063757272656e742062616c616e63652069732000ce047e021754686520616d6f756e7420746f20697373756520697320007e0111616d6f756e74207472616e736665726564=92", "e1ab97d7acfdf75352daec3b78516bfc7f49c25871e5602af82929d6cbf78838", []));
 registerContract(DephiumCoin);
 // Use this class to interact with the blockchain
 export class DephiumCoinInstance extends ContractInstance {
@@ -65,6 +68,9 @@ export class DephiumCoinInstance extends ContractInstance {
             issueDephiumCoin: async (params) => {
                 return callMethod(DephiumCoin, this, "issueDephiumCoin", params, getContractByCodeHash);
             },
+            transfer: async (params) => {
+                return callMethod(DephiumCoin, this, "transfer", params, getContractByCodeHash);
+            },
         };
         this.transact = {
             getSymbol: async (params) => {
@@ -84,6 +90,9 @@ export class DephiumCoinInstance extends ContractInstance {
             },
             issueDephiumCoin: async (params) => {
                 return signExecuteMethod(DephiumCoin, this, "issueDephiumCoin", params);
+            },
+            transfer: async (params) => {
+                return signExecuteMethod(DephiumCoin, this, "transfer", params);
             },
         };
     }

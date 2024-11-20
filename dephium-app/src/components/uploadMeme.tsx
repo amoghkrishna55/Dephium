@@ -19,6 +19,9 @@ import sandyOk from "@/assets/characters/sandy_ok.png";
 import sandyThinking from "@/assets/characters/sandy_thinking.png";
 import squidwardOk from "@/assets/characters/squidward_ok.png";
 import squidwardThinking from "@/assets/characters/squidward_thinking.png";
+import { useWallet } from "@alephium/web3-react";
+import { IssueDephiumToken } from "@/services/token.service";
+import { tokenFaucetConfig } from "@/services/utils";
 
 interface Character {
   name: string;
@@ -62,6 +65,19 @@ const UploadMeme = () => {
       okImg: sandyOk,
     },
   ]);
+
+  const { signer } = useWallet();
+
+  const withdrawTokens = async () => {
+    if (signer) {
+      const result = await IssueDephiumToken(
+        signer,
+        "1",
+        tokenFaucetConfig.faucetTokenId
+      );
+      console.log(result);
+    }
+  };
 
   const fetchReview = async (character: Character) => {
     try {
@@ -398,7 +414,15 @@ const UploadMeme = () => {
                     </motion.div>
                   </div>
                   <Button
-                    onClick={() => navigate("/select")}
+                    onClick={() => {
+                      if (
+                        Math.round(averageRating / characters.length) ===
+                        parseInt(score)
+                      ) {
+                        withdrawTokens();
+                      }
+                      navigate("/select");
+                    }}
                     className="w-full mt-8 bg-primary text-primary-foreground hover:opacity-90"
                   >
                     Continue

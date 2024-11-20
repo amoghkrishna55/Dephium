@@ -2,25 +2,30 @@
 import { useState, useEffect } from "react";
 import Loading from "../components/loading";
 import { AlephiumConnectButton, useWallet } from "@alephium/web3-react";
-import { IssueDephiumToken } from "../services/token.service";
-import { tokenFaucetConfig } from "../services/utils";
+// import {
+//   IssueDephiumToken,
+//   TransferDephiumToken,
+// } from "../services/token.service";
+import { useNavigate } from "react-router-dom";
+// import { tokenFaucetConfig } from "../services/utils";
 
 const Main = () => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [videoLoaded, setVideoLoaded] = useState(false);
-  const { signer } = useWallet();
+  const { connectionStatus } = useWallet();
+  // const { signer } = useWallet();
 
-  const withdrawTokens = async () => {
-    if (signer) {
-      const result = await IssueDephiumToken(
-        signer,
-        "10",
-        tokenFaucetConfig.faucetTokenId
-      );
-      console.log(result);
-    }
-  };
+  // const withdrawTokens = async () => {
+  //   if (signer) {
+  //     const result = await IssueDephiumToken(
+  //       signer,
+  //       "10",
+  //       tokenFaucetConfig.faucetTokenId
+  //     );
+  //     console.log(result);
+  //   }
+  // };
 
   useEffect(() => {
     if (videoLoaded) {
@@ -50,7 +55,6 @@ const Main = () => {
         <section className="text-center mb-16">
           <h2 className="text-4xl font-bold mb-4">
             Stake and Earn on Alephium Blockchain
-            {tokenFaucetConfig.faucetTokenId}
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
             Join the future of decentralized betting. Stake your ALPH tokens,
@@ -83,9 +87,10 @@ const Main = () => {
         <section className="text-center">
           <button
             onClick={() => {
-              if (signer) {
-                withdrawTokens();
-                console.log("Withdrawn token");
+              if (connectionStatus === "connected") {
+                navigate("/select");
+              } else {
+                alert("Please connect your wallet to start staking.");
               }
             }}
             className="px-8 py-3 rounded-lg bg-primary text-primary-foreground text-lg font-semibold hover:opacity-90"

@@ -76,6 +76,10 @@ export namespace DephiumCoinTypes {
       params: CallContractParams<{ amount: bigint }>;
       result: CallContractResult<null>;
     };
+    transfer: {
+      params: CallContractParams<{ amount: bigint; win: boolean }>;
+      result: CallContractResult<null>;
+    };
   }
   export type CallMethodParams<T extends keyof CallMethodTable> =
     CallMethodTable[T]["params"];
@@ -116,6 +120,10 @@ export namespace DephiumCoinTypes {
     };
     issueDephiumCoin: {
       params: SignExecuteContractMethodParams<{ amount: bigint }>;
+      result: SignExecuteScriptTxResult;
+    };
+    transfer: {
+      params: SignExecuteContractMethodParams<{ amount: bigint; win: boolean }>;
       result: SignExecuteScriptTxResult;
     };
   }
@@ -197,6 +205,14 @@ class Factory extends ContractFactory<
         getContractByCodeHash
       );
     },
+    transfer: async (
+      params: TestContractParamsWithoutMaps<
+        DephiumCoinTypes.Fields,
+        { amount: bigint; win: boolean }
+      >
+    ): Promise<TestContractResultWithoutMaps<null>> => {
+      return testMethod(this, "transfer", params, getContractByCodeHash);
+    },
   };
 
   stateForTest(
@@ -212,8 +228,8 @@ class Factory extends ContractFactory<
 export const DephiumCoin = new Factory(
   Contract.fromJson(
     DephiumCoinContractJson,
-    "=20-2+d2=111-1+b=10+a0007e02175468652063757272656e742062616c616e63652069732000ce047e021754686520616d6f756e7420746f2069737375652069732000=12+7e0111616d6f756e74207472616e736665726564=10+7e0112616d6f756e74207472616e73666572656432=12+7e0112616d6f756e74207472616e73666572656433=24",
-    "48e922b76e6734facf03a962723f653bf618e5021eb92d02526f3518780bf7d3",
+    "=20-2+9c=2-1=1+9=110-2+12=10+a0007e02175468652063757272656e742062616c616e63652069732000ce047e021754686520616d6f756e7420746f20697373756520697320007e0111616d6f756e74207472616e736665726564=92",
+    "e1ab97d7acfdf75352daec3b78516bfc7f49c25871e5602af82929d6cbf78838",
     []
   )
 );
@@ -313,6 +329,17 @@ export class DephiumCoinInstance extends ContractInstance {
         getContractByCodeHash
       );
     },
+    transfer: async (
+      params: DephiumCoinTypes.CallMethodParams<"transfer">
+    ): Promise<DephiumCoinTypes.CallMethodResult<"transfer">> => {
+      return callMethod(
+        DephiumCoin,
+        this,
+        "transfer",
+        params,
+        getContractByCodeHash
+      );
+    },
   };
 
   transact = {
@@ -347,6 +374,11 @@ export class DephiumCoinInstance extends ContractInstance {
       DephiumCoinTypes.SignExecuteMethodResult<"issueDephiumCoin">
     > => {
       return signExecuteMethod(DephiumCoin, this, "issueDephiumCoin", params);
+    },
+    transfer: async (
+      params: DephiumCoinTypes.SignExecuteMethodParams<"transfer">
+    ): Promise<DephiumCoinTypes.SignExecuteMethodResult<"transfer">> => {
+      return signExecuteMethod(DephiumCoin, this, "transfer", params);
     },
   };
 

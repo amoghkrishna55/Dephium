@@ -1,0 +1,31 @@
+{
+    "version": "v3.8.5",
+    "name": "TransferDef",
+    "bytecodeTemplate": "0101030000000db47a{1}a2b1{1}a3{1}{2}0e0c{0}0106",
+    "fieldsSig": {
+        "names": [
+            "token",
+            "amount",
+            "win"
+        ],
+        "types": [
+            "DephiumCoin",
+            "U256",
+            "Bool"
+        ],
+        "isMutable": [
+            false,
+            false,
+            false
+        ]
+    },
+    "functions": [
+        {
+            "name": "main",
+            "paramNames": [],
+            "paramTypes": [],
+            "paramIsMutable": [],
+            "returnTypes": []
+        }
+    ]
+}
