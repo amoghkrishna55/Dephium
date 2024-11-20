@@ -9,7 +9,7 @@ export interface TokenFaucetConfig {
 }
 
 function getNetwork(): NetworkId {
-  const network = "devnet" as NetworkId;
+  const network = "testnet" as NetworkId;
   return network;
 }
 

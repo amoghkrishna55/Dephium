@@ -22,7 +22,7 @@
     "build": "npm run clean && npx --yes tsc --build .",
     "clean": "rm -rf dist",
     "compile": "npx cli compile",
-    "deploy": "npx cli deploy"
+    "deploy": "npx cli deploy --network testnet"
   },
   "license": "ISC",
   "description": "",

@@ -57,7 +57,7 @@ export const reviewSchema = z.object({
 export type ReviewSchema = z.infer<typeof reviewSchema>;
 
 const model = new ChatGoogleGenerativeAI({
-  model: "gemini-1.5-pro",
+  model: "gemini-1.5-flash",
   maxOutputTokens: 2048,
   apiKey: import.meta.env.VITE_GOOGLE_API_KEY,
 });
@@ -90,7 +90,7 @@ export async function getMemeReview(
 
   const prompt = `${character.persona}
   
-  Rate the memes based on the characters persona and how much the character would like the meme. First, strictly verify if this is a cat meme:
+  You are a HIGHLY CRITICAL meme reviewer. First, strictly verify if this is a cat meme:
   - Must have clear humorous intent (not just a cute cat photo)
   - Must prominently feature or reference cats (not just background elements)
   - Must have proper meme format (image + text, or recognizable meme structure)
@@ -101,8 +101,26 @@ export async function getMemeReview(
   rating: 0
   review: "[Character-specific harsh criticism about why this fails as a meme]"
   
-  based the catmeme mostly based on the cuteness and humor that aligns with the character. don't give 10 easily.
+  For valid cat memes, score ruthlessly on these criteria:
+  1. Humor (0-3 points)
+     - Is it genuinely funny or just trying to be cute?
+     - Does the joke land or fall flat?
+     - Is the humor sophisticated or low-effort?
   
+  2. Originality (0-2 points)
+     - Deduct points for overused formats
+     - Penalize generic or repetitive concepts
+     - Reward unique approaches
+  
+  3. Cat-relevance (0-3 points)
+     - How central is the cat to the joke?
+     - Does it use cat behavior/characteristics cleverly?
+     - Could this work without the cat element?
+  
+  4. Technical execution (0-2 points)
+     - Image quality and clarity
+     - Text placement and readability
+     - Overall composition
   
   Final score is the sum of all categories. Be extremely specific about flaws:
   - Point out lazy editing
@@ -112,7 +130,8 @@ export async function getMemeReview(
   
   Rate the meme strictly in your character's style (${character.style}). 
   Remember:
-  - 8+ scores should be RARE
+  - 7+ scores should be RARE
+  - Most memes should score 4-6
   - Be brutally honest
   - Explain every point deduction
   - Reference specific elements that failed`;
@@ -127,7 +146,7 @@ export async function getMemeReview(
           },
           {
             type: "image_url",
-            image_url: data:image/jpeg;base64,${base64Image},
+            image_url: `data:image/jpeg;base64,${base64Image}`,
           },
         ],
       }),
@@ -139,7 +158,7 @@ export async function getMemeReview(
       ...response,
     };
   } catch (error) {
-    console.error(Error getting ${characterName}'s review:, error);
+    console.error(`Error getting ${characterName}'s review:`, error);
     throw error;
   }
 }

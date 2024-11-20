@@ -2,13 +2,16 @@
 /* tslint:disable */
 /* eslint-disable */
 import { DephiumCoin } from ".";
+import { default as testnetDeployments } from "../../deployments/.deployments.testnet.json";
 import { default as devnetDeployments } from "../../deployments/.deployments.devnet.json";
 function toDeployments(json) {
     const contracts = {
-        DephiumCoin: {
-            ...json.contracts["DephiumCoin"],
-            contractInstance: DephiumCoin.at(json.contracts["DephiumCoin"].contractInstance.address),
-        },
+        DephiumCoin: json.contracts["DephiumCoin"] === undefined
+            ? undefined
+            : {
+                ...json.contracts["DephiumCoin"],
+                contractInstance: DephiumCoin.at(json.contracts["DephiumCoin"].contractInstance.address),
+            },
     };
     return {
         ...json,
@@ -16,7 +19,11 @@ function toDeployments(json) {
     };
 }
 export function loadDeployments(networkId, deployerAddress) {
-    const deployments = networkId === "devnet" ? devnetDeployments : undefined;
+    const deployments = networkId === "testnet"
+        ? testnetDeployments
+        : networkId === "devnet"
+            ? devnetDeployments
+            : undefined;
     if (deployments === undefined) {
         throw Error("The contract has not been deployed to the " + networkId);
     }

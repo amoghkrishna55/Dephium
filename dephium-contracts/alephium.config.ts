@@ -8,7 +8,7 @@ export type Settings = {
   ownerAddress: string;
 };
 const defaultSettings: Settings = {
-  issueTokenAmount: 100n,
+  issueTokenAmount: 10000n,
   ownerAddress: process.env.OWNER_ADDRESS as string,
 };
 

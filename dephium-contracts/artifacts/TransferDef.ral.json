@@ -1,5 +1,5 @@
 {
-  "version": "v3.8.5",
+  "version": "v3.8.0",
   "name": "TransferDef",
   "bytecodeTemplate": "0101030000000db47a{1}a2b1{1}a3{1}{2}0e0c{0}0106",
   "fieldsSig": {
